@@ -1,9 +1,10 @@
 import React from 'react'
+import { FaBorderNone } from 'react-icons/fa'
 
 function Stat() {
     return (
         <div>
-            <h1>stat</h1>
+            curtasks
         </div>
     )
 }

@@ -92,10 +92,12 @@
     padding: 8px 0px;
     list-style: none;
     height: 60px;
+    
 }
 .text a {
     text-decoration: none;
     color: white;
+    
     font-size: 20px;
     width: 80%;
     height: 100%;
@@ -107,6 +109,7 @@
 .text a:hover{
     background-color: green;
     transition: 200ms;
+    
 }
 
 span{

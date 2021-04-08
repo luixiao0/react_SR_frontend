@@ -9,27 +9,27 @@ export const sidebarData = [
         title: 'home',
         path: '/',
         icon: <AiIcons.AiFillHome/>,
-        cName: 'text'
+        cName: 'text button'
     },
     
     {
         title: 'tasks',
         path: '/tasks',
         icon: <AiIcons.AiFillHome/>,
-        cName: 'text'
+        cName: 'text button'
     },
     
     {
         title: 'me',
         path: '/me',
         icon: <AiIcons.AiFillHome/>,
-        cName: 'text'
+        cName: 'text button'
     },
 
     {
         title: 'support',
         path: '/lux',
         icon: <AiIcons.AiFillHome/>,
-        cName: 'text'
+        cName: 'text button'
     }
 ]

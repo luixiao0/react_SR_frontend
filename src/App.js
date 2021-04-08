@@ -6,7 +6,7 @@ import Firstpage from './pages/firstpage'
 import Tasks from './pages/tasks'
 import Stat from './pages/stat'
 import Luixiao from './pages/lux'
-
+import Login from './pages/login'
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     
       <Framebars/>
       <Switch>
-        <Route path='/' exact component={Firstpage}/>
+        <Route path='/' exact component={Login}/>
         <Route path='/tasks' component={Tasks}/>
         <Route path='/me' component={Stat}/>
         <Route path='/lux' component={Luixiao}/>

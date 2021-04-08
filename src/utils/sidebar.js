@@ -4,7 +4,7 @@ import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
 import {sidebarData} from './sidebarData'
 import './sidebar.css'
-
+import Button from './button'
 
 function Framebars() {
     const [barclicked, setbarclicked] = useState(false)
@@ -19,9 +19,11 @@ function Framebars() {
                         <FaIcons.FaBars onClick={showsidebar}/>
                     </Link>
                 </div>
+                
                 <div className='middle'>
-                    <h2>HEADER</h2>
+                    <h2>image super res</h2>
                 </div>
+
                 <div className='end'>
                     <FaIcons.FaGrinAlt className={logged? 'avatar-login right':'avatar-logout right'} onClick={logState}/>
                 </div>
@@ -34,16 +36,8 @@ function Framebars() {
                         </Link>
                     </div>
                     <hr/>
-                    {sidebarData.map((item,index) => {
-                        return(
-                            <li key={index} className={item.cName}>
-                                <Link to={item.path}>
-                                    {item.icon}
-                                    <span>{item.title}</span>
-                                </Link>
-                            </li>
-                        )
-                    })}
+                    {sidebarData.map((item,index) => Button(item, index)
+                    )}
                 </ul>
             </div>
         </>
