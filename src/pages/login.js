@@ -21,9 +21,9 @@ const token = (uname, psw)=>{
 function Login() {
     return (
         <div>
-            username:<input className='username'/>
-            password:<input className='psw'/>
-            <button onClick></button>
+            username:<input id='uname' className='username'/>
+            password:<input id='psw' className='psw'/>
+            <button onClick={}></button>
         </div>
     )
 }
