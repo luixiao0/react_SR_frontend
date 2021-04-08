@@ -1,31 +1,3 @@
-<<<<<<< Updated upstream
-import './App.css';
-import React from 'react';
-import Framebars from './utils/sidebar'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import Firstpage from './pages/firstpage'
-import Tasks from './pages/tasks'
-import Stat from './pages/stat'
-import Luixiao from './pages/lux'
-import Login from './pages/login'
-
-
-function App() {
-  return (
-    <div className='App'>
-    <Router>
-    
-      <Framebars/>
-      <Switch>
-        <Route path='/' exact component={Login}/>
-        <Route path='/tasks' component={Tasks}/>
-        <Route path='/me' component={Stat}/>
-        <Route path='/lux' component={Luixiao}/>
-      </Switch>
-    </Router>
-    </div>
-  );
-=======
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
@@ -71,7 +43,7 @@ class App extends React.Component {
         onChange: page => {
           console.log(page);
         },
-        pageSize: 10,
+        pageSize: 40,
       }}
       dataSource={listData}
       footer={
@@ -88,18 +60,14 @@ class App extends React.Component {
             <IconText icon={CompressOutlined} text="2" key="list-vertical-message" />,
           ]}
           extra={<img
-              width={200}
+              width={300}
               alt="logo"
               src={item.preview}
-            />}
-        >
+            />}>
           <List.Item.Meta
-            // avatar={<Avatar src={item.avatar} />}
             title={<a href={item.href}>{item.title}</a>}
             description={item.description}
           />
-          
-          {/* {item.content} */}
 
           <div>
           <Button type="primary" shape="round" icon={<DownloadOutlined />} disabled={item.state===1? true:false} loading={item.state===2? true:false} size='large'>Download</Button>
@@ -110,7 +78,6 @@ class App extends React.Component {
     />
     );
   }
->>>>>>> Stashed changes
 }
 
 export default App
