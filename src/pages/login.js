@@ -2,48 +2,14 @@ import React from 'react'
 import {Button} from 'antd';
 import { UserOutlined ,LockOutlined} from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-
 import { Input, Space } from 'antd';
-var Authorization = {}
+import Userstate from '../utils/moves'
+import { observer } from "mobx-react"
+const CurrentUser = new Userstate()
 
-function auth_header(Authorization){
-    return Authorization.token_type + ' ' + Authorization.access_token
-}
-
-
-
-class Login extends React.Component{
-  state={
-    username:"",
-    password:""
-  }
-  onTextchange_uname = (event) =>{
-    this.setState({ username: event.target.value });
-  }
-  onTextchange_psw = (event) =>{
-    this.setState({ password: event.target.value });
-  }
-
-  token = ()=>{
-    fetch('http://127.0.0.1:8000/token',{
-      mode: 'cors',
-      method:"post",
-      headers:{
-      "Accept": "application/json",
-      "Content-Type":"application/x-www-form-urlencoded"
-      },
-      body:'username='+this.state.username+'&password='+ this.state.password
-      }
-    ).catch(error => console.log(error))
-    .then(res=>res.json()).then(data=>{
-          Authorization = data
-    }) 
-    console.log(Authorization)
-  }
-
-  render() {
-    return (
-      <>
+function Login() {
+  return (
+    <>
       <Space direction="horizontal">
       <Input
         placeholder="username"
@@ -63,11 +29,9 @@ class Login extends React.Component{
       <Button onClick={this.token}>Login</Button>
     </Space>
     </>
-    );
-  }
+  );
 }
-
-
+export default Login
 
 // function Login() {
 //   return (
@@ -89,5 +53,3 @@ class Login extends React.Component{
 //     </div>
 //   )
 // }
-
-export default Login

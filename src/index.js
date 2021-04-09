@@ -24,9 +24,7 @@ ReactDOM.render(
     >
       <div className="logo" />
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1" icon={<UserOutlined />}
-          
-        >
+        <Menu.Item key="1" icon={<UserOutlined />}>
           login
         </Menu.Item>
         <Menu.Item key="2" icon={<VideoCameraOutlined />}>
@@ -44,19 +42,17 @@ ReactDOM.render(
 
     
     <Layout>
-      {/* <Header className="site-layout-sub-header-background" style={{ padding: 0 }} /> */}
       <Content style={{ margin: '24px 16px 0' }}>
 
-        <div>
           <Row className='row'>
             <Col flex={1}><App name='finished'/></Col>
             <Col flex={1}><App name='unfinished'/></Col>
           </Row>
-        </div>
 
       </Content>
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
     </Layout>
+    
   </Layout>
   </React.StrictMode>,
   document.getElementById('root')
