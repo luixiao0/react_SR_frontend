@@ -1,95 +1,44 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Login from './pages/login'
-import 'antd/dist/antd.css';
-import './index.css';
-import { List, Space, Button, PageHeader} from 'antd';
-import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
-import GetTasks from './tasks'
+import React from 'react'
+import { Layout} from 'antd';
+import CustomMenu from './PicButton'
+import {Route, Switch} from 'react-router-dom'
+import DoubleRowTask from './pages/DoubleRowTask'
+import LoginMain from './pages/login'
+const { Header, Content, Footer, Sider } = Layout;
 
-import { DownloadOutlined} from '@ant-design/icons'
-
-class App extends React.Component {
-
-  render() {  
-    const listData = [];
-
-
-    // gendata
-    // for (let i = 0; i < 23; i++) {
-    //   listData.push({
-    //     imgfin: 'https://ant.design',
-    //     preview:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1348006748,506309393&fm=26&gp=0.jpg',
-    //     taskid: i,
-    //     state: i%3,
-    //     title: `ant design part ${i}`,
-    //     description:
-    //       'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    //   });
-    // }
-
-    // gendata
-    const IconText = ({ icon, text }) => (
-      <Space>
-        {React.createElement(icon)}
-        {text}
-      </Space>
-    );
+function App() {
     return (
-      <>
-
-      <PageHeader
-        className="site-page-header"
-        title={this.props.name}
-        backIcon={false}
-        subTitle="This is a subtitle"
-        extra={[
-        <Button key="3">Operation</Button>,
-        <Button key="2">Operation</Button>,
-        <Button key="1" type="primary">Primary</Button>,
-        ]}
+    <Layout>
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={broken => {
+            console.log(broken);
+          }}
+          onCollapse={(collapsed, type) => {
+            console.log(collapsed, type);
+          }}
+        >
+          <div className="logo" />
+          
+          <CustomMenu/>
+        </Sider>
+    
         
-      />
-      
-      <List
-      itemLayout="vertical"
-      size="large"
-      bordered
-      pagination={{
-        onChange: page => {
-          console.log(page);
-        },
-        pageSize: 30,
-      }}
-      dataSource={listData}
-      renderItem={item => (
-        <List.Item
-          key={item.taskid}
-          actions={[
-            <IconText icon={ArrowsAltOutlined} text="156" key="list-vertical-star-o" />,
-            <IconText icon={PictureOutlined} text="156" key="list-vertical-like-o" />,
-            <IconText icon={CompressOutlined} text="2" key="list-vertical-message" />,
-          ]}
-          extra={<img
-              height={150}
-              alt="logo"
-              src={item.preview}
-            />}>
-          <List.Item.Meta
-            title={<a href={item.href}>{item.title}</a>}
-            description={item.description}
-          />
-
-          <div>
-          <Button type="primary" shape="round" icon={<DownloadOutlined />} disabled={item.state===1? true:false} loading={item.state===2? true:false} size='large'>Download</Button>
-          </div>
-
-        </List.Item>
-      )}
-      />
-      </>
-    );
-  }
+        <Layout>
+          <Content style={{ margin: '24px 16px 0' }}>
+              <Switch>
+					<Route exact path='/login'><LoginMain/></Route>
+					<Route exact path='/tasks'><DoubleRowTask/></Route>
+					{/* <Route exact path='/me' component={global.me}/>
+					<Route exact path='/help' component={global.help}/> */}
+				</Switch>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        </Layout>
+        
+    </Layout>
+    )
 }
 
 export default App

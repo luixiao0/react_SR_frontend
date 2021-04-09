@@ -1,59 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { Row, Col } from 'antd'
 import './index.css';
-import { Layout, Menu } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-
-
-const { Header, Content, Footer, Sider } = Layout;
+import {BrowserRouter as Router} from 'react-router-dom'
+import App from './App'
 
 ReactDOM.render(
   <React.StrictMode>
-  <Layout>
-    <Sider
-      breakpoint="lg"
-      collapsedWidth="0"
-      onBreakpoint={broken => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
-      <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
-          login
-        </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-          tasks
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
-          upload
-        </Menu.Item>
-        <Menu.Item key="4" icon={<UserOutlined />}>
-          me
-        </Menu.Item>
-      </Menu>
-
-    </Sider>
-
-    
-    <Layout>
-      <Content style={{ margin: '24px 16px 0' }}>
-
-          <Row className='row'>
-            <Col flex={1}><App name='finished'/></Col>
-            <Col flex={1}><App name='unfinished'/></Col>
-          </Row>
-
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-    </Layout>
-    
-  </Layout>
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
