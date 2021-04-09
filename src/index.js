@@ -23,8 +23,10 @@ ReactDOM.render(
       }}
     >
       <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
+        <Menu.Item key="1" icon={<UserOutlined />}
+          onClick={console.log(this.key)}
+        >
           login
         </Menu.Item>
         <Menu.Item key="2" icon={<VideoCameraOutlined />}>
