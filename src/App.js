@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './index.css';
-import { List, Avatar, Space, Button} from 'antd';
+import { List, Space, Button} from 'antd';
 import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
-import Upload from './utils/upload'
+import Uploaddiv from './utils/upload'
 import { DownloadOutlined} from '@ant-design/icons'
 
 class App extends React.Component {
@@ -36,8 +36,8 @@ class App extends React.Component {
 
     return (
       <>
-      <Upload/>
-
+      <Uploaddiv/>
+      <hr/>
       <List
       itemLayout="vertical"
       size="large"
