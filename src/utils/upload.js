@@ -3,6 +3,8 @@ import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 
+
+
 const props = {
     name: 'file',
     multiple: false,

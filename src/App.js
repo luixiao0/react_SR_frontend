@@ -5,6 +5,7 @@ import './index.css';
 import { List, Space, Button} from 'antd';
 import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 import Uploaddiv from './utils/upload'
+import Login from './pages/login'
 import { DownloadOutlined} from '@ant-design/icons'
 
 class App extends React.Component {
@@ -36,6 +37,7 @@ class App extends React.Component {
 
     return (
       <>
+      <Login/>
       <Uploaddiv/>
       <hr/>
       <List
