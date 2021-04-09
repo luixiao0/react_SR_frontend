@@ -2,10 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './index.css';
+<<<<<<< HEAD
 import { List, Space, Button, PageHeader} from 'antd';
 import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 import GetTasks from './data'
 
+=======
+import { List, Space, Button} from 'antd';
+import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
+import Uploaddiv from './utils/upload'
+import Login from './pages/login'
+>>>>>>> a18ab94e3c55b3260ef6b5af3f772341b5fa7421
 import { DownloadOutlined} from '@ant-design/icons'
 
 class App extends React.Component {
@@ -35,6 +42,7 @@ class App extends React.Component {
     );
     return (
       <>
+<<<<<<< HEAD
       <PageHeader
         className="site-page-header"
         title="Title"
@@ -47,6 +55,11 @@ class App extends React.Component {
         ]}
         
       />
+=======
+      <Login/>
+      <Uploaddiv/>
+      <hr/>
+>>>>>>> a18ab94e3c55b3260ef6b5af3f772341b5fa7421
       <List
       itemLayout="vertical"
       size="large"
@@ -82,8 +95,13 @@ class App extends React.Component {
 
         </List.Item>
       )}
+<<<<<<< HEAD
       />
       </>
+=======
+    />
+    </>
+>>>>>>> a18ab94e3c55b3260ef6b5af3f772341b5fa7421
     );
   }
 }
