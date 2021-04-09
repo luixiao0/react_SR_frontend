@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './index.css';
-import { List, Avatar, Space, Button} from 'antd';
+import { List, Space, Button, PageHeader} from 'antd';
 import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
-import PicButton from './PicButton'
+import GetTasks from './data'
 
 import { DownloadOutlined} from '@ant-design/icons'
 
@@ -12,7 +12,7 @@ class App extends React.Component {
 
   render() {  
     const listData = [];
-    
+
 
     // gendata
     for (let i = 0; i < 23; i++) {
@@ -27,30 +27,37 @@ class App extends React.Component {
       });
     }
     // gendata
-
     const IconText = ({ icon, text }) => (
       <Space>
         {React.createElement(icon)}
         {text}
       </Space>
     );
-
     return (
+      <>
+      <PageHeader
+        className="site-page-header"
+        title="Title"
+        backIcon={false}
+        subTitle="This is a subtitle"
+        extra={[
+        <Button key="3">Operation</Button>,
+        <Button key="2">Operation</Button>,
+        <Button key="1" type="primary">Primary</Button>,
+        ]}
+        
+      />
       <List
       itemLayout="vertical"
       size="large"
+      bordered
       pagination={{
         onChange: page => {
           console.log(page);
         },
-        pageSize: 40,
+        pageSize: 30,
       }}
       dataSource={listData}
-      footer={
-        <div>
-          <b>ant design</b> footer part
-        </div>
-      }
       renderItem={item => (
         <List.Item
           key={item.taskid}
@@ -60,7 +67,7 @@ class App extends React.Component {
             <IconText icon={CompressOutlined} text="2" key="list-vertical-message" />,
           ]}
           extra={<img
-              width={300}
+              height={150}
               alt="logo"
               src={item.preview}
             />}>
@@ -75,7 +82,8 @@ class App extends React.Component {
 
         </List.Item>
       )}
-    />
+      />
+      </>
     );
   }
 }
