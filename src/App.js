@@ -4,8 +4,7 @@ import 'antd/dist/antd.css';
 import './index.css';
 import { List, Avatar, Space, Button} from 'antd';
 import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
-import PicButton from './PicButton'
-
+import Upload from './utils/upload'
 import { DownloadOutlined} from '@ant-design/icons'
 
 class App extends React.Component {
@@ -36,6 +35,9 @@ class App extends React.Component {
     );
 
     return (
+      <>
+      <Upload/>
+
       <List
       itemLayout="vertical"
       size="large"
@@ -76,6 +78,7 @@ class App extends React.Component {
         </List.Item>
       )}
     />
+    </>
     );
   }
 }
