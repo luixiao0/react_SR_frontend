@@ -16,17 +16,18 @@ class App extends React.Component {
 
 
     // gendata
-    for (let i = 0; i < 23; i++) {
-      listData.push({
-        imgfin: 'https://ant.design',
-        preview:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1348006748,506309393&fm=26&gp=0.jpg',
-        taskid: i,
-        state: i%3,
-        title: `ant design part ${i}`,
-        description:
-          'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-      });
-    }
+    // for (let i = 0; i < 23; i++) {
+    //   listData.push({
+    //     imgfin: 'https://ant.design',
+    //     preview:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1348006748,506309393&fm=26&gp=0.jpg',
+    //     taskid: i,
+    //     state: i%3,
+    //     title: `ant design part ${i}`,
+    //     description:
+    //       'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+    //   });
+    // }
+
     // gendata
     const IconText = ({ icon, text }) => (
       <Space>
