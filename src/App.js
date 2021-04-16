@@ -4,7 +4,13 @@ import CustomMenu from './PicButton'
 import {Route, Switch} from 'react-router-dom'
 import DoubleRowTask from './pages/DoubleRowTask'
 import LoginMain from './pages/login'
+import './index.css'
+import Uploadpage from './pages/upload'
 const { Header, Content, Footer, Sider } = Layout;
+
+
+
+
 
 function App() {
     return (
@@ -25,12 +31,15 @@ function App() {
         </Sider>
     
         
-        <Layout>
+        <Layout className='app'>
           <Content style={{ margin: '24px 16px 0' }}>
               <Switch>
-					<Route exact path='/login'><LoginMain/></Route>
+					<Route exact path='/login'><LoginMain className="login"/></Route>
+
 					<Route exact path='/tasks'><DoubleRowTask/></Route>
-					{/* <Route exact path='/me' component={global.me}/>
+          <Route exact path='/upload'><Uploadpage/></Route>
+					
+          {/* <Route exact path='/me' component={global.me}/>
 					<Route exact path='/help' component={global.help}/> */}
 				</Switch>
           </Content>

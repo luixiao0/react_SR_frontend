@@ -5,14 +5,21 @@ import { Layout, Menu } from 'antd';
 
 global.menus = [
     {
-        title: '首页',
+        title: '登录',
         icon: <UserOutlined />,
         key: '/login'
-    },   {
-        title: '其它',
+    },   
+    {
+        title: '任务',
         icon: <VideoCameraOutlined />,
         key: '/tasks',
-     },
+    },
+    {
+        title: '上传',
+        icon: <VideoCameraOutlined />,
+        key: '/upload',
+    },
+
 ]
 const menus =global.menus;
 //此组件的意义就是将数据抽离出来，通过传递数据去渲染

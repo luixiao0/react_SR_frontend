@@ -1,0 +1,28 @@
+.login_input{
+    width: 80%;
+    margin: 1vh 10vw;
+}
+.logger{
+    margin-top: 5vh;
+    margin-bottom: 60vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100% !important;
+}
+.logger_div{
+    width: 100%;
+}
+
+.buttons{
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.buttons Button{
+    width: 40%;
+    min-width: 80px;
+    margin-top: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+}

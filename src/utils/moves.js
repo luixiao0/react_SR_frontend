@@ -5,20 +5,16 @@ import { observer } from "mobx-react"
 
 export default class Userstate {
     Auth = ""
-    Tasks = {
-    }
-    regState = ""
+    TasksList = []
+    regState = false
+    logState = false
+    notAuth = false
     state = {
         username:"",
         password:""
     }
-    
     constructor() {
         makeAutoObservable(this)
-    }
-
-    auth_header(Authorization){
-        return Authorization.token_type + ' ' + Authorization.access_token
     }
 
     reg = () => {
@@ -31,7 +27,8 @@ export default class Userstate {
             body:JSON.stringify(this.state)
         }).catch(error => console.log(error))
         .then(res=>res.json()).then(data=>{
-              this.regState = data
+            if (data === 'success')
+              this.regState = true
         })
     }
 
@@ -48,7 +45,9 @@ export default class Userstate {
               }
             ).catch(error => console.log(error))
             .then(res=>res.json()).then(data=>{
-                  this.Auth = data.access_token
+                if (data.access_token){
+                    this.logState = true
+                    this.Auth = data.access_token}
             }) 
     }
     display = () =>{
@@ -60,21 +59,42 @@ export default class Userstate {
         fetch('http://127.0.0.1:8000/me/query',{
             method:"post",
             headers:{
-              "Accept": "application/json",
+              "accept": "application/json",
               "Authorization": tokenHeader
               },
             body:""
             }).catch(error => console.log(error))
-            .then(res=>res.json()).then(data=>{
-                  this.Tasks = data
-                  console.log(data)
-        }) 
+            .then(res=>res.json()).then(data=>{                
+                this.TasksList = []
+                if (!data.detail){
+                for (var key in data){
+                    var curtask = data[key]
+                    if (curtask){
+                        const dest = 'http://127.0.0.1:8000/preview/' + curtask.taskid
+                        fetch(dest,{
+                            method:"get",
+                            headers:{
+                                "accept": "application/json",
+                                "Authorization": tokenHeader
+                            },
+                        }).catch(error => console.log(error))
+                        .then(response => response.blob())
+                        .then(images => {
+                            // Then create a local URL for that image and print it 
+                            if (images){
+                                curtask.preview = URL.createObjectURL(images)
+                                console.log(curtask)
+                            }
+                            this.TasksList.push(curtask)
+                        })
+                    }
+                }}
+                else{
+                    // notauth
+                    this.notAuth = true
+                }
+            })
     }
-    
-    output_tasks = () => {
-        JSON.stringify(this.Tasks)
-    }
-
     set_state_uname = (event) =>{
         this.state.username = event.target.value
     }
