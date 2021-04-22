@@ -1,11 +1,9 @@
-import React from "react"
-import ReactDOM from "react-dom"
 import { makeAutoObservable } from "mobx"
-import { observer } from "mobx-react"
 
 export default class Userstate {
     Auth = ""
     TasksList = []
+    TasksListfin = []
     regState = false
     logState = false
     notAuth = false
@@ -55,6 +53,8 @@ export default class Userstate {
     }
 
     get_tasks = () => {
+        this.TasksList = new Array()
+        this.TasksListfin = new Array()
         const tokenHeader = 'Bearer ' + this.Auth
         fetch('http://127.0.0.1:8000/me/query',{
             method:"post",
@@ -64,8 +64,7 @@ export default class Userstate {
               },
             body:""
             }).catch(error => console.log(error))
-            .then(res=>res.json()).then(data=>{                
-                this.TasksList = []
+            .then(res=>res.json()).then(data=>{
                 if (!data.detail){
                 for (var key in data){
                     var curtask = data[key]
@@ -85,7 +84,13 @@ export default class Userstate {
                                 curtask.preview = URL.createObjectURL(images)
                                 console.log(curtask)
                             }
-                            this.TasksList.push(curtask)
+                            
+                            if(curtask.state!==1){
+                                this.TasksList.push(curtask)
+                            }
+                            else{
+                                this.TasksListfin.push(curtask)
+                            }
                         })
                     }
                 }}

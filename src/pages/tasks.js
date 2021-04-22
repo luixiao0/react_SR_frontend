@@ -13,7 +13,7 @@ const IconText = ({ icon, text }) => (
   </Space>
 );
 
-const Taskob = observer(({user}) => (
+const Taskob = observer(({user, fin}) => (
   <>
     {/* <Button onClick={user.get_tasks}>GET</Button> */}
     {/* {JSON.stringify(user.TasksList)} */}
@@ -27,7 +27,7 @@ const Taskob = observer(({user}) => (
         // },
         pageSize: 30,
       }}
-      dataSource={toJS(user.TasksList)}
+      dataSource={fin?toJS(user.TasksListfin):toJS(user.TasksList)}
       renderItem={item => (
         <List.Item
           key={item.taskid}
@@ -63,10 +63,11 @@ const Taskob = observer(({user}) => (
 ))
 
 class Tasks extends React.Component {
+  constructor(props){
+    super(props)
+  }
 
-  render() {  
-    const listData = [];
-    
+  render() {
     
     return (
       <>
@@ -81,7 +82,7 @@ class Tasks extends React.Component {
         <Button key="1" type="primary">Primary</Button>,
         ]}  
       />
-      <Taskob user={global.CurrentUser}/>
+      <Taskob user={global.CurrentUser} fin={this.props.fin}/>
       </>
     );
   }

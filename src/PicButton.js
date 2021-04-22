@@ -19,10 +19,9 @@ global.menus = [
         icon: <VideoCameraOutlined />,
         key: '/upload',
     },
-
 ]
 const menus =global.menus;
-//此组件的意义就是将数据抽离出来，通过传递数据去渲染
+
 class CustomMenu extends React.Component {
 
     renderMenuItem = ({key, icon, title,}) => {

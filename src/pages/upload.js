@@ -1,19 +1,19 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Upload, message } from 'antd';
+import { Upload, message, Button } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import './upload.css'
+import './minh.css'
 import { Space, Slider, InputNumber, Row, Col } from 'antd';
 import Tasks from './Tasks'
 
 const { Dragger } = Upload;
 
 class SliderUpload extends React.Component{
-    props = {
+    constructor(props){
+        super(props)
+    }
+    action = {
         name: 'file',
-        sf:0,
-        noise:3,
-        kernel_width:0,
         multiple: true,
         action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
         onChange(info) {
@@ -31,13 +31,16 @@ class SliderUpload extends React.Component{
     render(){
         return(
             <div>
-            <Dragger {...this.props}>
+            <Dragger {...this.action}>
             <p className="ant-upload-drag-icon">
                 <InboxOutlined />
             </p>
             <p className="ant-upload-text">Click or drag file to this area to upload</p>
             <p className="ant-upload-hint">
-                Support for a single or bulk upload
+                当前参数：
+                倍数:{this.props.state["scale"]},  
+                噪声等级:{this.props.state["noiselevel"]},  
+                核宽度:{this.props.state["kernel_width"]}
             </p>
             </Dragger>
             </div>
@@ -55,6 +58,9 @@ class CusSlider extends React.Component{
     }
 
     onFieldChange = value => {
+        if (isNaN(value)) {
+            return;
+        }
         // for a regular input field, read field name and value from the event
         const fieldName = this.props.name;
         const fieldValue = value;
@@ -97,34 +103,29 @@ class Sliders extends React.Component{
         super(props);
     }
     onChange (name, value) {
-        if (isNaN(value)) {
-          return;
-        }
-        this.setState({
-          [name]: value,
-        });
+        this.props.onChange(name, value);
     };
     render(){
         return(
-            <div className="sliderdiv">
+            <div>
                 
             <h3>设置</h3>
             <CusSlider 
             min={2} max={4} step={1}
             name='scale' 
-            inputValue={this.state.scale} 
+            inputValue={this.props.state.scale} 
             onChange={this.onChange.bind(this)}
             />
             <CusSlider 
             min={0} max={16} step={0.1}
             name='noiselevel' 
-            inputValue={this.state.noiselevel} 
+            inputValue={this.props.state.noiselevel} 
             onChange={this.onChange.bind(this)}
             />
             <CusSlider 
             min={0} max={2} step={0.1}
             name='kernel_width' 
-            inputValue={this.state.kernel_width} 
+            inputValue={this.props.state.kernel_width} 
             onChange={this.onChange.bind(this)}
             />
 
@@ -140,34 +141,36 @@ class Sliders extends React.Component{
 
 
 class Uploadpage extends React.Component{
-    constructor(){
-        this.state = {
-            scale:2,
-            noiselevel:3,
-            kernel_width:0,
-            filename:'file',
-            uid:''
-        };
-    }
+    state = {
+        scale:2,
+        noiselevel:3,
+        kernel_width:0,
+        filename:'file',
+        uid:''
+    };
+
     onChange(name, value){
         this.setState({
             [name]: value,
         });
     }
 
-    action(){
-        
+    componentDidMount(){
+        global.CurrentUser.get_tasks()
     }
 
 
     render(){
         return(
-            <div>
+            <div className="content">
+                {/* <hr/> */}
+                    帮助文本
+                {/* <hr/> */}
                 <Row className='row'>
-                <Col flex={1}><Sliders/></Col>
-                <Col flex={1}><SliderUpload/></Col>
+                    <Col flex={1}><Sliders onChange={this.onChange.bind(this)} state={this.state}/></Col>
+                    <Col flex={1}><SliderUpload state={this.state}/></Col>
                 </Row>
-                <hr/>
+                {/* <hr/> */}
                 <Tasks name='unfinished'/>
             </div>
         )

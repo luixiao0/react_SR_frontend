@@ -3,11 +3,8 @@ import {Button} from 'antd';
 import { UserOutlined ,LockOutlined} from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Input, Space } from 'antd';
-import Userstate from '../utils/moves'
 import { observer } from "mobx-react"
 import './login.css'
-
-global.CurrentUser = new Userstate()
 
 
 // Build a "user interface" that uses the observable state.
@@ -29,8 +26,8 @@ const Loginob = observer(({ user }) => (
       className = 'login_input'
     />
     <div className='buttons'>
-    <Button onClick={user.get_token} type="primary" disabled={user.logState? true:false}>Login{user.logState? " success":""}</Button>
-    <Button onClick={user.reg} disabled={user.regState? true:false}>Register{user.regState? " success": ""}</Button>
+    <Button onClick={user.get_token} type="primary" disabled={user.logState? true:false}>{user.logState? "Success":"Login"}</Button>
+    <Button onClick={user.reg} disabled={user.regState? true:false}>{user.regState? "Success": "Register"}</Button>
     {/* <Button onClick={user.display} type="primary">token:{user.Auth}</Button> */}
     {/* <Button onClick={user.get_pic} type="primary">HERE!</Button> */}
     </div>
