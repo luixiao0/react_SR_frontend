@@ -9,7 +9,8 @@ import './login.css'
 
 // Build a "user interface" that uses the observable state.
 const Loginob = observer(({ user }) => (
-  <div className="logger_div">
+  <>
+  <div className={user.logState|!user.notAuth? "hidden":"logger_div"}>
     <Input
         placeholder="username"
         prefix={<UserOutlined/>}
@@ -31,17 +32,25 @@ const Loginob = observer(({ user }) => (
     {/* <Button onClick={user.display} type="primary">token:{user.Auth}</Button> */}
     {/* <Button onClick={user.get_pic} type="primary">HERE!</Button> */}
     </div>
+    
   </div>
+  
+  <div id="bg" class={user.logState|!user.notAuth? "hidden":"bg"}>sada</div>
+  </>
 ))
 
 function Login() {
-  return (
-    <>
-      <Space direction="vertical" className="logger">
-
-        <Loginob user={global.CurrentUser}/>
-    </Space>
-    </>
-  );
+  // if (!global.CurrentUser.logState){
+  //   console.log('in')
+    return (
+      <Loginob id="login" className="login" user={global.CurrentUser}/>
+    );
+  // }
+  // else{
+  //   <div>
+  //     <Loginob user={global.CurrentUser}/>
+  //     <div id="bg" class="bg hid">sada</div>
+  //   </div>
+  // }
 }
 export default Login

@@ -4,7 +4,7 @@ import CustomMenu from './PicButton'
 import {Route, Switch} from 'react-router-dom'
 import DoubleRowTask from './pages/DoubleRowTask'
 import LoginMain from './pages/login'
-import './index.css'
+import './App.css'
 import Userstate from './utils/moves'
 import FirstPage from './pages/FirstPage'
 import Uploadpage from './pages/upload'
@@ -16,6 +16,8 @@ global.CurrentUser = new Userstate()
 
 
 function App() {
+
+    
     return (
     <Layout>
         <Sider
@@ -35,13 +37,20 @@ function App() {
     
         
         <Layout className='app'>
-          <Content style={{ margin: '24px 16px 0' }}>
-          <Switch>
-            <Route exact path='/'><FirstPage/></Route>
-            <Route exact path='/login'><LoginMain className="login"/></Route>
+          
+          <LoginMain/>
+          
+          {/* <div id="bg" class="bg">sada</div> */}
 
-            <Route exact path='/tasks'><DoubleRowTask/></Route>
-            <Route exact path='/upload'><Uploadpage/></Route>
+          <Content style={{ margin: '24px 16px 0' }}>
+          
+          
+          <Switch>
+            <Route exact path='/'><FirstPage className='content'/></Route>
+            <Route exact path='/tasks'><DoubleRowTask className='content'/></Route>
+            <Route exact path='/upload'><Uploadpage className='content'/></Route>
+            
+            <Route exact path='/logout'><FirstPage className='content' logout/></Route>
             
             {/* <Route exact path='/me' component={global.me}/>
             <Route exact path='/help' component={global.help}/> */}

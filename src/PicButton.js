@@ -3,27 +3,47 @@ import {Link} from 'react-router-dom';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 
-global.menus = [
-    {
-        title: '登录',
-        icon: <UserOutlined />,
-        key: '/login'
-    },   
-    {
-        title: '任务',
-        icon: <VideoCameraOutlined />,
-        key: '/tasks',
-    },
-    {
-        title: '上传',
-        icon: <VideoCameraOutlined />,
-        key: '/upload',
-    },
-]
-const menus =global.menus;
+
+
 
 class CustomMenu extends React.Component {
+    constructor(){
+        super()
+        this.menus = [
+            {
+                title: '首页',
+                icon: <VideoCameraOutlined />,
+                key: '/',
+            },
+        
+            {
+                title: '任务',
+                icon: <VideoCameraOutlined />,
+                key: '/tasks',
+            },
+            {
+                title: '上传',
+                icon: <UploadOutlined />,
+                key: '/upload',
+            },
+        ]
 
+        if(!global.CurrentUser.logState){
+            this.logbutton = {
+                title:"登出",
+                icon:<UserOutlined/>,
+                key:'/logout'
+            }
+        }
+        else{
+            this.logbutton = {
+                title:"登出",
+                icon:<UserOutlined/>,
+                key:'/logout'
+            }
+        }
+        this.menus.push(this.logbutton)
+    }
     renderMenuItem = ({key, icon, title,}) => {
         return (
             <Menu.Item key={key}>
@@ -42,7 +62,7 @@ class CustomMenu extends React.Component {
                 theme="dark"
                 >
                 {
-                    menus.map(item => {
+                    this.menus.map(item => {
                         return item.subs && item.subs.length > 0 ? this.renderSubMenu(item) : this.renderMenuItem(item)
                     })
                 }

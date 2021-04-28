@@ -7,7 +7,7 @@ function DoubleRowTask() {
         global.CurrentUser.get_tasks()
     }
     return (          
-    <Row className='row'>
+    <Row className='content'>
         <Col flex={1}><Tasks name='finished' fin/></Col>
         <Col flex={1}><Tasks name='unfinished'/></Col>
     </Row>

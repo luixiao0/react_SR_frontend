@@ -5,14 +5,19 @@ export default class Userstate {
     TasksList = []
     TasksListfin = []
     regState = false
-    logState = false
-    notAuth = false
+    logState = 0
+    notAuth = true
     state = {
         username:"",
         password:""
     }
+
     constructor() {
         makeAutoObservable(this)
+        this.Auth = localStorage.Auth
+        this.logState = Number(localStorage.logState)
+
+        
     }
 
     reg = () => {
@@ -32,6 +37,7 @@ export default class Userstate {
 
     get_token = () => {
         const tokenbody='username='+this.state.username+'&password='+ this.state.password
+        console.log(tokenbody)
         // console.log(testbody)
         fetch('http://127.0.0.1:8000/token',{
             method:"post",
@@ -44,8 +50,16 @@ export default class Userstate {
             ).catch(error => console.log(error))
             .then(res=>res.json()).then(data=>{
                 if (data.access_token){
-                    this.logState = true
-                    this.Auth = data.access_token}
+                    this.logState = 1
+                    localStorage.logState = 1
+                    // var login=document.getElementById('logger_div');
+                    // var bg=document.getElementById('bg');
+                    // login.style.display="none";
+                    // bg.style.display="none";
+                    this.Auth = data.access_token
+                    localStorage.Auth = data.access_token
+                }
+
             }) 
     }
     display = () =>{
@@ -97,9 +111,28 @@ export default class Userstate {
                 else{
                     // notauth
                     this.notAuth = true
+                    this.Auth = ""
+                    this.logState = 0
                 }
             })
     }
+
+    logout = () => {
+        
+        this.Auth = ""
+        this.TasksList = []
+        this.TasksListfin = []
+        this.regState = false
+        this.logState = 0
+        this.notAuth = true
+        localStorage.clear(); // 移除所有
+
+        // var login=document.getElementById('logger_div');
+        // var bg=document.getElementById('bg');
+        // login.style.display="block";
+        // bg.style.display="block";
+    }
+
     set_state_uname = (event) =>{
         this.state.username = event.target.value
     }

@@ -48,7 +48,7 @@ const Taskob = observer(({user, fin}) => (
           <div>
           <Button type="primary" shape="round" 
             icon={<DownloadOutlined />} 
-            disabled={item.state===1? true:false} 
+            // disabled={item.state===1? true:false} 
             loading={item.state===2? true:false} 
             size='large'
             href={item.E_path}>
