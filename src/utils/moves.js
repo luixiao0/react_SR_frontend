@@ -18,11 +18,8 @@ export default class Userstate {
     constructor() {
         makeAutoObservable(this)
         this.Auth = localStorage.Auth
-        this.logState = Number(localStorage.logState)
-
-        
+        this.logState = Number(localStorage.logState)   
     }
-
 
     reg = () => {
         fetch('http://127.0.0.1:8000/reg',{
@@ -38,12 +35,10 @@ export default class Userstate {
               this.regState = true
         })
     }
-
+    tokenHeader = () =>{return 'Bearer ' + this.Auth}
 
     get_token = () => {
         const tokenbody='username='+this.state.username+'&password='+ this.state.password
-        // console.log(tokenbody)
-        // console.log(testbody)
         fetch('http://127.0.0.1:8000/token',{
             method:"post",
             headers:{
@@ -72,12 +67,11 @@ export default class Userstate {
         this.TasksList = []
         this.TasksListfin = []
         console.log('refreshed')
-        const tokenHeader = 'Bearer ' + this.Auth
         fetch('http://127.0.0.1:8000/me/query',{
             method:"post",
             headers:{
               "accept": "application/json",
-              "Authorization": tokenHeader
+              "Authorization": this.tokenHeader()
             },
             body:""
             })
@@ -85,7 +79,7 @@ export default class Userstate {
             .then(res=>res.json()).then(data=>{
                 if (!data.detail){
                     for (var key in data){
-                        var curtask = data[key]
+                        const curtask = data[key]
                         // const dest = 'http://127.0.0.1:8000/preview/' + curtask.taskid
                         // fetch(dest,{
                         //     method:"get",
@@ -103,25 +97,19 @@ export default class Userstate {
                             // console.log(curtask)
                         //     
                         // })
-                        this.pushtask(curtask)
+                        if(curtask.state!==1){
+                            this.TasksList.push(curtask)
+                        }
+                        else{
+                            this.TasksListfin.push(curtask)
+                        }
                     }
                 }
             })
     }
 
-    pushtask = function(curtask){
-        if(curtask.state!==1){
-            this.TasksList.push(curtask)
-        }
-        else{
-            this.TasksListfin.push(curtask)
-        }
-        // console.log(this.TasksListfin)
-    }
-
-    newTask = function(tasks, SRvar){
-        const tokenHeader = 'Bearer ' + this.Auth
-        var formData = new FormData()
+    newTask = (tasks, SRvar) => {
+        let formData = new FormData()
         console.log(formData)
         tasks.forEach(file => {
             if(['image/jpeg', 'image/gif', 'image/png', 'image/svg+xml'].includes(file.type)) {
@@ -136,7 +124,7 @@ export default class Userstate {
             method:"POST",
             headers:{
               "accept": "application/json",
-              "Authorization": tokenHeader,
+              "Authorization": this.tokenHeader(),
               "Content-Type": "multipart/form-data"
             },
             body:formData
@@ -159,7 +147,7 @@ export default class Userstate {
         this.regState = false
         this.logState = 0
         this.notAuth = true
-        localStorage.clear(); // 移除所有
+        localStorage.clear();
 
         // var login=document.getElementById('logger_div');
         // var bg=document.getElementById('bg');
@@ -175,7 +163,3 @@ export default class Userstate {
     }
     
 }
-
-// const TimerView = observer(({ Userstate }) => (
-//     <button onClick={() => Userstate.get_token()}>{Userstate.Auth}</button>
-// ))
