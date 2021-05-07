@@ -15,7 +15,6 @@ class CustomMenu extends React.Component {
                 icon: <VideoCameraOutlined />,
                 key: '/',
             },
-        
             {
                 title: '任务',
                 icon: <VideoCameraOutlined />,

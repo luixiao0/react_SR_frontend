@@ -3,7 +3,7 @@ import Tasks from './Tasks'
 import { Row, Col } from 'antd'
 import './minh.css'
 function DoubleRowTask() {
-    if (global.CurrentUser.TasksList.length==0){
+    if (global.CurrentUser.TasksList.length===0){
         global.CurrentUser.get_tasks()
     }
     return (          

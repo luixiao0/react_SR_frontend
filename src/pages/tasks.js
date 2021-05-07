@@ -39,7 +39,7 @@ const Taskob = observer(({user, fin}) => (
           extra={<img
               height={150}
               alt="logo"
-              src={item.preview}
+              src={user.previewhref+item.taskid}
             />}>
           <List.Item.Meta
             title={<a href={item.img}>{item.taskid}</a>}
@@ -51,7 +51,7 @@ const Taskob = observer(({user, fin}) => (
             // disabled={item.state===1? true:false} 
             loading={item.state===2? true:false} 
             size='large'
-            href={item.E_path}>
+            href={user.dloadhref + item.taskid}>
               Download
           </Button>
           </div>
@@ -77,8 +77,8 @@ class Tasks extends React.Component {
         backIcon={false}
         subTitle="This is a subtitle"
         extra={[
-        <Button key="3" onClick={global.CurrentUser.get_tasks}>刷新</Button>,
-        <Button key="2">Operation</Button>,
+        <Button key="2" onClick={global.CurrentUser.get_tasks}>刷新</Button>,
+        // <Button key="2" onClick={global.CurrentUser.dsplay}>Operation</Button>,
         <Button key="1" type="primary">Primary</Button>,
         ]}  
       />

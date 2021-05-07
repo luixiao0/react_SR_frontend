@@ -16,8 +16,6 @@ global.CurrentUser = new Userstate()
 
 
 function App() {
-
-    
     return (
     <Layout>
         <Sider

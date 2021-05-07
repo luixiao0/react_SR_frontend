@@ -1,61 +1,108 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Upload, message, Button } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined,WarningOutlined } from '@ant-design/icons';
 import './minh.css'
 import { Space, Slider, InputNumber, Row, Col } from 'antd';
 import Tasks from './Tasks'
 
-const { Dragger } = Upload;
+// const { Dragger } = Upload;
 
 class SliderUpload extends React.Component{
-    constructor(props){
-        super(props)
-    }
-    action = {
-        name: 'file',
-        multiple: true,
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        onChange(info) {
-          const { status } = info.file;
-          if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-          }
-          if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-          } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-          }
-        },
+
+    state = {
+        fileList: [],
+        uploading: false,
     };
-    render(){
-        return(
-            <div>
-            <Dragger {...this.action}>
-            <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">
-                当前参数：
-                倍数:{this.props.state["scale"]},  
-                噪声等级:{this.props.state["noiselevel"]},  
-                核宽度:{this.props.state["kernel_width"]}
-            </p>
-            </Dragger>
-            </div>
-        )
+    
+    handleUpload = () => {
+        const { fileList } = this.state;
+        this.setState({
+          uploading: true,
+        });
+        const SRvars = this.props.state
+        global.CurrentUser.newTask(fileList, SRvars)
+
+        this.setState({
+            uploading: false,
+        });
+      };
+    
+
+
+      render() {
+        const { uploading, fileList } = this.state;
+        const props = {
+          onRemove: file => {
+            this.setState(state => {
+              const index = state.fileList.indexOf(file);
+              const newFileList = state.fileList.slice();
+              newFileList.splice(index, 1);
+              return {
+                fileList: newFileList,
+              };
+            });
+          },
+          beforeUpload: file => {
+            this.setState(state => ({
+              fileList: [...state.fileList, file],
+            }));
+            return false;
+          },
+          fileList,
+        };
+    
+        return (
+          <>
+            <Upload {...props}>
+              <Button icon={<InboxOutlined />}>选择文件</Button>
+            </Upload>
+
+            <Button
+              icon ={<WarningOutlined />}
+              type="primary"
+              onClick={this.handleUpload}
+              disabled={fileList.length === 0}
+              loading={uploading}
+              style={{ marginTop: 16 }}
+            >
+              {uploading ? '正在上传' : '开始上传'}
+            </Button>
+          </>
+        );
+      }
     }
 
-}
+
+
+//     render(){
+//         return(
+//             <div>
+//             <Dragger {...this.action}>
+//             <p className="ant-upload-drag-icon">
+//                 <InboxOutlined />
+//             </p>
+//             <p className="ant-upload-text">Click or drag file to this area to upload</p>
+//             <p className="ant-upload-hint">
+//                 当前参数：
+//                 倍数:{this.props.state["scale"]},  
+//                 噪声等级:{this.props.state["noiselevel"]},  
+//                 核宽度:{this.props.state["kernel_width"]}
+//             </p>
+//             </Dragger>
+//             </div>
+//         )
+//     }
+
+// }
 
 
 
 
 class CusSlider extends React.Component{
-    constructor (props) {
-        super(props);
-    }
+    // constructor (props) {
+    //     super(props);
+    // }
 
     onFieldChange = value => {
         if (isNaN(value)) {
@@ -99,9 +146,9 @@ class CusSlider extends React.Component{
 
 
 class Sliders extends React.Component{
-    constructor (props) {
-        super(props);
-    }
+    // constructor (props) {
+    //     super(props);
+    // }
     onChange (name, value) {
         this.props.onChange(name, value);
     };
@@ -145,8 +192,6 @@ class Uploadpage extends React.Component{
         scale:2,
         noiselevel:3,
         kernel_width:0,
-        filename:'file',
-        uid:''
     };
 
     onChange(name, value){
