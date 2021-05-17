@@ -125,7 +125,7 @@ export default class Userstate {
             headers:{
               "accept": "application/json",
               "Authorization": this.tokenHeader(),
-              "Content-Type": "multipart/form-data"
+            //   "Content-Type": "multipart/form-data"
             },
             body:formData
             })
