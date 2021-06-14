@@ -38,7 +38,7 @@ function App() {
           
           <LoginMain/>
           
-          {/* <div id="bg" class="bg">sada</div> */}
+          {/* <div id="bg" className="bg">sada</div> */}
 
           <Content style={{ margin: '24px 16px 0' }}>
           

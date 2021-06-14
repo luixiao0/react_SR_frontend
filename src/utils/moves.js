@@ -113,7 +113,7 @@ export default class Userstate {
         console.log(formData)
         tasks.forEach(file => {
             if(['image/jpeg', 'image/gif', 'image/png', 'image/svg+xml'].includes(file.type)) {
-                formData.append("uploadedFile[]", file); 
+                formData.append("files", file); 
             }
         });
         console.log(formData)

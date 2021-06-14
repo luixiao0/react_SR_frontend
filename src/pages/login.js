@@ -8,6 +8,7 @@ import './login.css'
 
 
 // Build a "user interface" that uses the observable state.
+
 const Loginob = observer(({ user }) => (
   <>
   <div className={user.logState|!user.notAuth? "hidden":"logger_div"}>
@@ -32,9 +33,7 @@ const Loginob = observer(({ user }) => (
     {/* <Button onClick={user.display} type="primary">token:{user.Auth}</Button> */}
     {/* <Button onClick={user.get_pic} type="primary">HERE!</Button> */}
     </div>
-    
   </div>
-  
   <div id="bg" class={user.logState|!user.notAuth? "hidden":"bg"}>sada</div>
   </>
 ))

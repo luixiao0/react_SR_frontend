@@ -9,12 +9,10 @@ import Tasks from './Tasks'
 // const { Dragger } = Upload;
 
 class SliderUpload extends React.Component{
-
     state = {
         fileList: [],
         uploading: false,
     };
-    
     handleUpload = () => {
         const { fileList } = this.state;
         this.setState({
@@ -27,9 +25,6 @@ class SliderUpload extends React.Component{
             uploading: false,
         });
       };
-    
-
-
       render() {
         const { uploading, fileList } = this.state;
         const props = {
