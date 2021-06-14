@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx"
+import config from './config.json'
 
 export default class Userstate {
     Auth = ""
@@ -6,9 +7,6 @@ export default class Userstate {
     TasksListfin = []
     regState = false
     logState = 0
-    previewhref = "http://localhost:8000/preview/"
-    dloadhref = "http://localhost:8000/me/dload?taskid="
-    newtaskhref = "http://127.0.0.1:8000/me/newtask/"
     notAuth = true
     state = {
         username:"",
@@ -18,11 +16,17 @@ export default class Userstate {
     constructor() {
         makeAutoObservable(this)
         this.Auth = localStorage.Auth
-        this.logState = Number(localStorage.logState)   
+        this.logState = Number(localStorage.logState)
+        console.log(config)
+        this.backend = config.backend_address
+        
+        this.previewhref = this.backend + "/preview/"
+        this.dloadhref = this.backend + "/me/dload?taskid="
+        this.delhref = this.backend + "/deltask?taskid="
     }
 
     reg = () => {
-        fetch('http://127.0.0.1:8000/reg',{
+        fetch(this.backend + "/reg",{
             method:"post",
             headers:{
                 "Accept": "application/json",
@@ -39,7 +43,8 @@ export default class Userstate {
 
     get_token = () => {
         const tokenbody='username='+this.state.username+'&password='+ this.state.password
-        fetch('http://127.0.0.1:8000/token',{
+        console.log(this.backend)
+        fetch(this.backend +"/token",{
             method:"post",
             headers:{
               "Accept": "application/json",
@@ -47,7 +52,7 @@ export default class Userstate {
               },
               body:tokenbody
               }
-            ).catch(error => console.log(error))
+            )
             .then(res=>res.json()).then(data=>{
                 if (data.access_token){
                     this.logState = 1
@@ -60,14 +65,27 @@ export default class Userstate {
                     localStorage.Auth = data.access_token
                 }
 
-            }) 
+            }).catch(error => console.log(error)) 
+    }
+
+    deltask = (taskid) => {
+        console.log(taskid)
+        fetch(this.delhref + taskid,{
+            method:"post",
+            headers:{
+              "accept": "application/json",
+              "Authorization": this.tokenHeader()
+            },
+            body: ""
+        }).then(res=>{
+            console.log(res)
+        })
     }
 
     get_tasks = () => {
         this.TasksList = []
         this.TasksListfin = []
-        console.log('refreshed')
-        fetch('http://127.0.0.1:8000/me/query',{
+        fetch(this.backend +"/me/query",{
             method:"post",
             headers:{
               "accept": "application/json",
@@ -75,11 +93,13 @@ export default class Userstate {
             },
             body:""
             })
-            .catch(error => console.log(error))
             .then(res=>res.json()).then(data=>{
                 if (!data.detail){
                     for (var key in data){
                         const curtask = data[key]
+                        if (curtask === null){
+                            continue
+                        }
                         // const dest = 'http://127.0.0.1:8000/preview/' + curtask.taskid
                         // fetch(dest,{
                         //     method:"get",
@@ -105,7 +125,8 @@ export default class Userstate {
                         }
                     }
                 }
-            })
+            }
+        ).catch(error => console.log(error))
     }
 
     newTask = (tasks, SRvar) => {
@@ -118,8 +139,8 @@ export default class Userstate {
         });
         console.log(formData)
         const SRspell = "?noise=" + SRvar.noiselevel + "&sf=" + SRvar.scale + "&width=" + SRvar.kernel_width
-        const newTaskspell = this.newtaskhref + SRspell
-        // console.log(newTaskspell)
+        const newTaskspell = this.backend + "/me/newtask/" + SRspell
+        console.log(newTaskspell)
         fetch(newTaskspell,{
             method:"POST",
             headers:{

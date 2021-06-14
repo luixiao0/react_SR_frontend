@@ -1,8 +1,8 @@
 import React from 'react'
 import {Button} from 'antd';
-import { UserOutlined ,LockOutlined} from '@ant-design/icons';
+import { UserOutlined} from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { Input, Space } from 'antd';
+import { Input } from 'antd';
 import { observer } from "mobx-react"
 import './login.css'
 

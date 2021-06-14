@@ -1,9 +1,9 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Upload, message, Button } from 'antd';
+import { Upload, Button } from 'antd';
 import { InboxOutlined,WarningOutlined } from '@ant-design/icons';
 import './minh.css'
-import { Space, Slider, InputNumber, Row, Col } from 'antd';
+import { Slider, InputNumber, Row, Col } from 'antd';
 import Tasks from './Tasks'
 
 // const { Dragger } = Upload;

@@ -3,9 +3,9 @@ import './minh.css'
 
 
 class FirstPage extends React.Component {
-    constructor(props){
-        super(props)
-    }
+    // constructor(props){
+    //     super(props)
+    // }
 
     render(){
         if (this.props.logout){

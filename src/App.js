@@ -14,7 +14,6 @@ const { Header, Content, Footer, Sider } = Layout;
 global.CurrentUser = new Userstate()
 
 
-
 function App() {
     return (
     <Layout>
