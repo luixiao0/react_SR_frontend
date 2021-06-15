@@ -1,5 +1,5 @@
 import React from 'react'
-import Tasks from './Tasks'
+import Tasks from './Tasks.js'
 import { Row, Col } from 'antd'
 import './minh.css'
 

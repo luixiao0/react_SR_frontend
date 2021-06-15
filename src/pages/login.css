@@ -25,9 +25,9 @@
     margin-right: 5%;
 }
 
-/* .button {
-    padding-top: 0px !important;
-} */
+.button {
+    padding:auto;
+}
 
 .bg{
     background-color: #000;

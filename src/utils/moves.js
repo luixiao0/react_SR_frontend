@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable, runInAction } from "mobx"
 import config from './config.json'
 
 export default class Userstate {
@@ -82,9 +82,34 @@ export default class Userstate {
         })
     }
 
+    dloadtask = (taskid) => {
+        console.log(taskid)
+        fetch(this.dloadhref + taskid,{
+            method:"get",
+            headers:{
+              "accept": "application/json",
+              "Authorization": this.tokenHeader()
+            }
+        }).then(res => res.blob().then(blob => {
+            let a = document.createElement('a');
+            let url = window.URL.createObjectURL(blob);
+            let filename = res.headers.get('content-disposition');
+            console.log(res.headers.forEach((e)=>{console.log(e)}))
+            if (filename) {
+                filename = filename.match(/\"(.*)\"/)[1]; //提取文件名
+                a.href = url;
+                a.download = filename; //给下载下来的文件起个名字
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a = null;
+            }
+        }))
+    }
+
     get_tasks = () => {
+        runInAction(() => {
         this.TasksList = []
-        this.TasksListfin = []
+        this.TasksListfin = []})
         fetch(this.backend +"/me/query",{
             method:"post",
             headers:{
@@ -118,10 +143,14 @@ export default class Userstate {
                         //     
                         // })
                         if(curtask.state!==1){
-                            this.TasksList.push(curtask)
+                            runInAction(() => {
+                                this.TasksList.push(curtask)
+                            })
                         }
                         else{
+                            runInAction(() => {
                             this.TasksListfin.push(curtask)
+                            })
                         }
                     }
                 }

@@ -26,6 +26,15 @@ class Tasks extends React.Component {
       {text}
     </Space>
   );
+
+  handleRefclick = () => {
+    global.CurrentUser.get_tasks()
+    this.forceUpdate()
+  }
+
+  handleDloadclick = (taskid, e) => {
+    global.CurrentUser.dloadtask(taskid)
+  }
   Taskob = observer(({user, taskls}) => (
     <>
       {/* <Button onClick={user.get_tasks}>GET</Button> */}
@@ -52,33 +61,35 @@ class Tasks extends React.Component {
             extra={<img
                 height={150}
                 alt="preview"
-                src={global.CurrentUser.previewhref+item.taskid}
+                src={user.previewhref+item.taskid}
               />}>
             <List.Item.Meta
               title={<a href={item.img}>{item.taskid}</a>}
               description={item.date}
             />
-            <div>
-            <Button type="primary" shape="round" 
-              icon={<DownloadOutlined />} 
-              // disabled={item.state===1? true:false} 
-              loading={item.state===2? true:false} 
-              size='large'
-              className="button"
-              href={global.CurrentUser.dloadhref + item.taskid}>
-                Download
-            </Button>
-            <Button type="primary" shape="round" 
-              icon={<DownloadOutlined />} 
-              // disabled={item.state===1? true:false} 
-              loading={item.state===2? true:false} 
-              size='large'
-              className="button"
-              taskid={item.taskid}
-              onClick={(e) => this.handleDelclick(item.taskid,e)}>
-                Delete
-            </Button>
-            </div>
+
+              <Button type="primary" shape="round" 
+                icon={<DownloadOutlined />} 
+                // disabled={item.state===1? true:false} 
+                loading={item.state===2? true:false} 
+                size='large'
+                className="button"
+                taskid={item.taskid}
+                onClick={(e) => this.handleDloadclick(item.taskid,e)}
+                >
+                  Download
+              </Button>
+
+              <Button type="primary" shape="round" 
+                icon={<DownloadOutlined />} 
+                // disabled={item.state===1? true:false} 
+                loading={item.state===2? true:false} 
+                size='large'
+                className="button"
+                taskid={item.taskid}
+                onClick={(e) => this.handleDelclick(item.taskid,e)}>
+                  Delete
+              </Button>
   
           </List.Item>
         )}
@@ -95,12 +106,12 @@ class Tasks extends React.Component {
         backIcon={false}
         subTitle="This is a subtitle"
         extra={[
-        <Button key="2" onClick={global.CurrentUser.get_tasks}>刷新</Button>,
+        <Button key="2" onClick={this.handleRefclick}>刷新</Button>,
         // <Button key="2" onClick={global.CurrentUser.dsplay}>Operation</Button>,
         <Button key="1" type="primary">Primary</Button>,
         ]}  
       />
-      <this.Taskob taskls={this.props.fin? global.CurrentUser.TasksListfin: global.CurrentUser.TasksList}/>
+      <this.Taskob user={global.CurrentUser} taskls={this.props.fin? global.CurrentUser.TasksListfin: global.CurrentUser.TasksList}/>
       </>
     );
   }
