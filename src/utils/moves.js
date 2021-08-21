@@ -166,10 +166,10 @@ export default class Userstate {
                 formData.append("files", file); 
             }
         });
-        console.log(formData)
+        // console.log(formData)
         const SRspell = "?noise=" + SRvar.noiselevel + "&sf=" + SRvar.scale + "&width=" + SRvar.kernel_width
         const newTaskspell = this.backend + "/me/newtask/" + SRspell
-        console.log(newTaskspell)
+        // console.log(newTaskspell)
         fetch(newTaskspell,{
             method:"POST",
             headers:{

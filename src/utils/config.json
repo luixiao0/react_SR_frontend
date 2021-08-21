@@ -1,4 +1,4 @@
 
 { 
-  "backend_address": "http://192.168.1.202:8000"
+  "backend_address": "http://127.0.0.1:8000"
 }
