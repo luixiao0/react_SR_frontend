@@ -9,8 +9,9 @@ function DoubleRowTask() {
     }
     return (
     <Row className='content'>
-        <Col flex={1}><Tasks name='finished' fin/></Col>
-        <Col flex={1}><Tasks name='unfinished'/></Col>
+        <Tasks name='tasks' fin/>
+        {/* <Col flex={1}><Tasks name='tasks' fin/></Col> */}
+        {/* <Col flex={1}><Tasks name='unfinished'/></Col> */}
     </Row>
     )
 }
