@@ -4,17 +4,38 @@ import './login.css'
 import { List, Space, Button, PageHeader } from 'antd';
 import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 import { DownloadOutlined} from '@ant-design/icons'
-import { observer } from "mobx-react"
-import {toJS} from "mobx"
+import LazyLoad from 'react-lazyload';
 
-
+class Taskcard extends React.Component{
+  shouldComponentUpdate(nextProps, nextState){
+    console.log(nextProps, nextState)
+    if(nextProps.state === this.props.state) {
+      return false
+    }
+    return true
+  }
+  render() {
+    const { title, params, state} = this.props;
+    return (
+      <div>
+        <div>
+          <h2>{title}</h2>
+          <button disabled={state===1?false:true}>download</button>
+          <button disabled={state<2?false:true}>delete</button>
+        </div>
+        <LazyLoad>
+        <div>
+          <image>{title}</image>
+          <p>{params}</p>
+        </div>
+        </LazyLoad>
+      </div>
+    );
+  }
+};
 
 
 class Tasks extends React.Component {
-  // constructor(props){
-  //   super(props)
-  // }
-
   handleDelclick = (taskid, e) => {
     //console.log(item,e)
     global.CurrentUser.deltask(taskid)
@@ -30,74 +51,10 @@ class Tasks extends React.Component {
   handleRefclick = () => {
     global.CurrentUser.get_tasks()
     this.forceUpdate()
+    console.log(global.CurrentUser.TasksList)
   }
 
-  handleDloadclick = (taskid, e) => {
-    global.CurrentUser.dloadtask(taskid)
-  }
-  Taskob = observer(({user, taskls}) => (
-    <>
-      {/* <Button onClick={user.get_tasks}>GET</Button> */}
-      {/* {JSON.stringify(user.TasksList)} */}
-      <List
-        itemLayout="vertical"
-        size="large"
-        bordered
-        pagination={{
-          // onChange: page => {
-          //   console.log(page)
-          // },
-          pageSize: 30,
-        }}
-        dataSource={toJS(taskls)}
-        renderItem={item => (
-          <List.Item
-            key={item.taskid}
-            actions={[
-              <this.IconText icon={ArrowsAltOutlined} text={item.sf} key="list-vertical-star-o" />,
-              <this.IconText icon={PictureOutlined} text={item.noiselevel} key="list-vertical-like-o" />,
-              <this.IconText icon={CompressOutlined} text={item.customized_kernel_width} key="list-vertical-message" />,
-            ]}
-            extra={<img
-                height={150}
-                alt="preview"
-                src={user.previewhref+item.taskid}
-              />}>
-            <List.Item.Meta
-              title={<a href={item.img}>{item.taskid}</a>}
-              description={item.date}
-            />
-
-              <Button type="primary" shape="round" 
-                icon={<DownloadOutlined />} 
-                // disabled={item.state===1? true:false} 
-                loading={item.state===2? true:false} 
-                size='large'
-                className="button"
-                taskid={item.taskid}
-                onClick={(e) => this.handleDloadclick(item.taskid,e)}
-                >
-                  Download
-              </Button>
-
-              <Button type="primary" shape="round" 
-                icon={<DownloadOutlined />} 
-                // disabled={item.state===1? true:false} 
-                loading={item.state===2? true:false} 
-                size='large'
-                className="button"
-                taskid={item.taskid}
-                onClick={(e) => this.handleDelclick(item.taskid,e)}>
-                  Delete
-              </Button>
-  
-          </List.Item>
-        )}
-      />
-    </>
-  ))
   render() {
-    
     return (
       <>
       <PageHeader
@@ -107,11 +64,10 @@ class Tasks extends React.Component {
         subTitle="This is a subtitle"
         extra={[
         <Button key="2" onClick={this.handleRefclick}>刷新</Button>,
-        // <Button key="2" onClick={global.CurrentUser.dsplay}>Operation</Button>,
         <Button key="1" type="primary">Primary</Button>,
         ]}  
       />
-      <this.Taskob user={global.CurrentUser} taskls={this.props.fin? global.CurrentUser.TasksListfin: global.CurrentUser.TasksList}/>
+      
       </>
     );
   }

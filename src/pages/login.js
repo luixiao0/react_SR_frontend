@@ -6,11 +6,13 @@ import { Input } from 'antd';
 import { observer } from "mobx-react"
 import './login.css'
 
+import Userstate from '../utils/moves'
+global.CurrentUser = new Userstate()
 
 // Build a "user interface" that uses the observable state.
 
 const Loginob = observer(({ user }) => (
-  <>
+  <div className={user.logState|!user.notAuth? "hidden":"bg"}>
   <div className={user.logState|!user.notAuth? "hidden":"logger_div"}>
     <Input
         placeholder="username"
@@ -28,28 +30,18 @@ const Loginob = observer(({ user }) => (
       className = 'login_input'
     />
     <div className='buttons'>
-    <Button onClick={user.get_token} type="primary" disabled={user.logState? true:false}>{user.logState? "Success":"Login"}</Button>
-    <Button onClick={user.reg} disabled={user.regState? true:false}>{user.regState? "Success": "Register"}</Button>
-    {/* <Button onClick={user.display} type="primary">token:{user.Auth}</Button> */}
-    {/* <Button onClick={user.get_pic} type="primary">HERE!</Button> */}
+    <Button onClick={user.get_token} type="primary" disabled={user.state.logState? true:false}>{user.state.logState? "Success":"Login"}</Button>
+    <Button onClick={user.reg} disabled={user.state.regState? true:false}>{user.state.regState? "Success": "Register"}</Button>
     </div>
   </div>
-  <div id="bg" class={user.logState|!user.notAuth? "hidden":"bg"}>sada</div>
-  </>
+  {/* <div id="bg" class={user.state.logState|!user.state.notAuth? "hidden":"bg"}>sada</div> */}
+  </div>
 ))
 
 function Login() {
-  // if (!global.CurrentUser.logState){
-  //   console.log('in')
+  // console.log(global.CurrentUser.logState, global.CurrentUser.notAuth)
     return (
       <Loginob id="login" className="login" user={global.CurrentUser}/>
     );
-  // }
-  // else{
-  //   <div>
-  //     <Loginob user={global.CurrentUser}/>
-  //     <div id="bg" class="bg hid">sada</div>
-  //   </div>
-  // }
 }
 export default Login
