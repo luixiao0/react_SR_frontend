@@ -5,12 +5,26 @@
     width: 1%;
     height: 0;
     padding-bottom: 1%;
-    min-width: 10px;
-    min-height: 10px;
+    min-width: 1em;
+    min-height: 1em;
 }
 .active{
     background: radial-gradient(rgba(94, 255, 62, 0.8) 50%,   rgba(238, 238, 238, 0.8) 70%);
 }
 .inactive{
     background: radial-gradient(rgba(255, 143, 37, 0.8) 50%,   rgba(238, 238, 238, 0.8) 70%);
+}
+.cards{
+    min-width: 5em;
+    min-height: 5em;
+    width: 50%;
+    max-width: 200px;
+    margin: 2vh ;
+}
+.content{
+    width: 100%;
+    /* display: flex; */
+}
+.images{
+    width: 100%;
 }

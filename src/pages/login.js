@@ -14,11 +14,12 @@ class LoginMain extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      uname:'',
-      psw:'',
-      logState:false,
+      uname:localStorage.uname,
+      psw:localStorage.psw,
+      logState:localStorage.logState,
       regState:false
     }
+    this.handleLogin()
   }
   // componentDidMount(){
   //   setInterval(global.CurrentUser.get_token, 10*60*1000)

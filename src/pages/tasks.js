@@ -4,7 +4,10 @@ import './Tasks.css'
 // import { List, Space, Button, PageHeader } from 'antd';
 // import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 // import { DownloadOutlined} from '@ant-design/icons'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Card, Avatar } from 'antd';
 import LazyLoad from 'react-lazyload';
+const { Meta } = Card;
 
 class Image extends React.Component{
   constructor(props){
@@ -26,7 +29,7 @@ class Image extends React.Component{
   render(){
     return(
       <>
-      <img className="" src={this.state.img}  alt="" />
+      <img className="images" src={this.state.img}  alt="" />
       </>
     )
   }
@@ -57,25 +60,44 @@ class Taskcard extends React.Component{
       this.finished = true
     }
     return (
-      <div>
-        <div>
-          <h2>{this.props.title}</h2>
-          <figure className={this.finished?"circle active": "circle inactive"}></figure>
-          <div>
-            <button disabled={this.finished?false:true} onClick={this.handleDLclick}>download</button>
-            <button disabled={this.props.taskstate<=3?false:true} onClick={this.handleDelclick}>delete</button>
-          </div>
-        </div>
-        <div>
+      // <div>
+      //   <div>
+      //     <h2>{this.props.title}</h2>
+      //     <figure className={this.finished?"circle active": "circle inactive"}></figure>
+      //     <div>
+      //       <button disabled={this.finished?false:true} onClick={this.handleDLclick}>download</button>
+      //       <button disabled={this.props.taskstate<=3?false:true} onClick={this.handleDelclick}>delete</button>
+      //     </div>
+      //   </div>
+      //   <div>
+          // <LazyLoad>
+          //   <Image id={this.props.id}/>
+          // </LazyLoad>
+      //     <p>{this.props.id}</p>
+
+      //   </div>
+      // </div>
+      <Card className="cards"
+        cover={
           <LazyLoad>
             <Image id={this.props.id}/>
           </LazyLoad>
-          <p>{this.props.id}</p>
-          <span>{this.props.params[0]} </span>
-          <span>{this.props.params[1]} </span>
+        }
+        actions={[
+          <span>{this.props.params[0]} </span>,
+          <span>{this.props.params[1]} </span>,
           <span>{this.props.params[2]} </span>
-        </div>
-      </div>
+          // <SettingOutlined key="setting" />,
+          // <EditOutlined key="edit" />,
+          // <EllipsisOutlined key="ellipsis" />,
+        ]}
+      >
+        <Meta
+          avatar={<figure className={this.finished?"circle active": "circle inactive"}/>}
+          title={this.props.id}
+          description={this.props.title}
+        />
+      </Card>
     );
   }
 };
@@ -118,13 +140,15 @@ class Tasks extends React.Component{
 
   render(){
     return (
-      <div>
+      <>
         <button onClick={this.handleClick}>change</button>
+        <div className="content">
         {this.state.Tasks.map(task=>{
           // console.log(task)
           return <Taskcard refresh={this.handleClick} key={task.id} id={task.id} title={task.date} taskstate={task.s} params={task.p}/>
         })}
-      </div>
+        </div>
+      </>
     )
   }
 }

@@ -130,9 +130,7 @@ export default class Userstate {
   }
 
   get_preview = (taskid, setter) => {
-    let spell = this.previewhref+taskid
-    fetch(spell,{
-      // fetch(this.backend +"/me/query/1",{
+    fetch(this.previewhref+taskid,{
       method:"get",
       headers:{
         "accept": "application/json",
