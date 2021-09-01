@@ -43,7 +43,9 @@ class Taskcard extends React.Component{
         <div>
           <p>{this.props.id}</p>
           <h2>{this.props.taskstate}</h2>
-          <p>{this.props.params.map(param => {return <span> {param} </span>})}</p>
+          <span>{this.props.params[0]} </span>
+          <span>{this.props.params[1]} </span>
+          <span>{this.props.params[2]} </span>
         </div>
       </div>
       // </LazyLoad>
@@ -156,7 +158,7 @@ class Tasks extends React.Component{
         <button onClick={this.handleClick}>change</button>
         {this.state.Tasks.map(task=>{
           // console.log(task)
-          return <Taskcard id={task.id} title={task.date} taskstate={task.s} params={task.p}/>
+          return <Taskcard key={task.id} id={task.id} title={task.date} taskstate={task.s} params={task.p}/>
         })}
       </div>
     )
