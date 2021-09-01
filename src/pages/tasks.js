@@ -4,7 +4,33 @@ import './Tasks.css'
 // import { List, Space, Button, PageHeader } from 'antd';
 // import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 // import { DownloadOutlined} from '@ant-design/icons'
-// import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazyload';
+
+class Image extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      img:"",
+    }
+  }
+  setter = (file) =>{
+    this.setState({
+      img:file,
+    })
+    // console.log(this.state)
+  }
+  componentDidMount(){
+    global.CurrentUser.get_preview(this.props.id, this.setter)
+  }
+
+  render(){
+    return(
+      <>
+      <img className="" src={this.state.img}  alt="" />
+      </>
+    )
+  }
+}
 
 class Taskcard extends React.Component{
   shouldComponentUpdate(nextProps, nextState){
@@ -15,7 +41,8 @@ class Taskcard extends React.Component{
   }
   handleDelclick = () => {
     console.log(this.props.id,'del')
-    // global.CurrentUser.deltask(taskid)
+    global.CurrentUser.deltask(this.props.id)
+    this.props.refresh()
   }
   handleDLclick = () => {
     global.CurrentUser.DLtask(this.props.id)
@@ -30,93 +57,28 @@ class Taskcard extends React.Component{
       this.finished = true
     }
     return (
-      // <LazyLoad>
       <div>
         <div>
           <h2>{this.props.title}</h2>
           <figure className={this.finished?"circle active": "circle inactive"}></figure>
           <div>
             <button disabled={this.finished?false:true} onClick={this.handleDLclick}>download</button>
-            <button disabled={this.props.taskstate<2?false:true} onClick={this.handleDelclick}>delete</button>
+            <button disabled={this.props.taskstate<=3?false:true} onClick={this.handleDelclick}>delete</button>
           </div>
         </div>
         <div>
+          <LazyLoad>
+            <Image id={this.props.id}/>
+          </LazyLoad>
           <p>{this.props.id}</p>
-          <h2>{this.props.taskstate}</h2>
           <span>{this.props.params[0]} </span>
           <span>{this.props.params[1]} </span>
           <span>{this.props.params[2]} </span>
         </div>
       </div>
-      // </LazyLoad>
     );
   }
 };
-
-// class Tasks extends React.Component {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       showall: false,
-//       curpage: 1,
-//       taskdiv: ''
-//     }
-//     this.updateState = this.updateState.bind(this) 
-//   }
-//   handleRefclick = () => {
-//     global.CurrentUser.get_tasks("1")
-//     this.forceUpdate()
-//   }
-//   handleFliterclick = () => {
-//     this.state.showall = !this.state.showall
-//     this.setState(this.state)
-//   }
-//   componentDidMount = () => {
-//     this.handleRefclick()
-//     this.t = setInterval(()=>{
-//       this.updateState()
-//     }, 5000)
-
-//   }
-//   componentWillUnmount = () => {
-//     clearInterval(this.t)
-//   }
-
-//   listOfTasks(){
-//     return (
-//       <div> 
-//         {global.CurrentUser.TasksList.map(task => ( 
-//           <div>{1}</div>
-//         ))}
-//       </div> 
-//     )
-//   }
-
-//   updateState(){
-//     global.CurrentUser.get_tasks(this.state.curpage)
-//     this.state.taskdiv = this.listOfTasks()
-//     this.setState(this.state)
-//     console.log(this.state)
-//   } 
-
-//   render() {
-//     return (
-//       <>
-//         {/* <PageHeader
-//           className="site-page-header"
-//           title={this.props.name}
-//           backIcon={false}
-//           subTitle="This is a subtitle"
-//           extra={[
-//           <Button key="2" onClick={this.handleRefclick}>刷新</Button>,
-//           <Button key="1" type="primary" onClick={this.handleFliterclick}>{this.state.showall?"已完成":"全部"}</Button>,
-//           ]}  
-//         /> */}
-//         <p>{this.taskdiv}</p>
-//       </>
-//     );
-//   }
-// }
 
 
 class Tasks extends React.Component{
@@ -126,6 +88,7 @@ class Tasks extends React.Component{
       curpage: 1,
       Tasks: []
     };
+    this.setter.bind(this)
   }
   setter = (page, task) =>{
     this.setState({
@@ -139,6 +102,7 @@ class Tasks extends React.Component{
       this.setState({curpage: 1})
     }
     global.CurrentUser.get_tasks(this.state.curpage, this.setter)
+    console.log('refreshed')
   }
   componentDidMount(){
     this.handleClick()
@@ -158,7 +122,7 @@ class Tasks extends React.Component{
         <button onClick={this.handleClick}>change</button>
         {this.state.Tasks.map(task=>{
           // console.log(task)
-          return <Taskcard key={task.id} id={task.id} title={task.date} taskstate={task.s} params={task.p}/>
+          return <Taskcard refresh={this.handleClick} key={task.id} id={task.id} title={task.date} taskstate={task.s} params={task.p}/>
         })}
       </div>
     )
