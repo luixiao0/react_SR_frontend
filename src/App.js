@@ -46,8 +46,7 @@ function App() {
             <Route exact path='/'><FirstPage className='content'/></Route>
             <Route exact path='/tasks'><DoubleRowTask className='content'/></Route>
             <Route exact path='/upload'><Uploadpage className='content'/></Route>
-            
-            <Route exact path='/logout'><FirstPage className='content' logout/></Route>
+            {/* <Route exact path='/logout'><FirstPage className='content' logout/></Route> */}
             
             {/* <Route exact path='/me' component={global.me}/>
             <Route exact path='/help' component={global.help}/> */}

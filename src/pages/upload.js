@@ -211,7 +211,7 @@ class Uploadpage extends React.Component{
                     <Col flex={1}><SliderUpload state={this.state}/></Col>
                 </Row>
                 {/* <hr/> */}
-                <Tasks name='unfinished'/>
+                <Tasks/>
             </div>
         )
     }

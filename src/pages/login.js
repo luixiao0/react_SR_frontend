@@ -10,43 +10,72 @@ import './login.css'
 
 // Build a "user interface" that uses the observable state.
 
-const Loginob = (props) => {
-  const {id,classname,user} = props
-  return (
-  <div className={user.logState|!user.notAuth? "hidden":"bg"}>
-  <div className={user.logState|!user.notAuth? "hidden":"logger_div"}>
-    <Input
-        placeholder="username"
-        prefix={<UserOutlined/>}
-        onChange={user.set_state_uname}
-        value={user.state.username}
-        className = 'login_input'
-    />
-    <Input.Password
-      placeholder="password"
-      iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-      prefix={<UserOutlined/>}
-      onChange={user.set_state_psw}
-      value={user.state.password}
-      className = 'login_input'
-    />
-    <div className='buttons'>
-    <Button onClick={user.get_token} type="primary" disabled={user.state.logState? true:false}>{user.state.logState? "Success":"Login"}</Button>
-    <Button onClick={user.reg} disabled={user.state.regState? true:false}>{user.state.regState? "Success": "Register"}</Button>
-    </div>
-  </div>
-  {/* <div id="bg" class={user.state.logState|!user.state.notAuth? "hidden":"bg"}>sada</div> */}
-  </div>
-  )
-}
-
 class LoginMain extends React.Component{
-  componentDidMount(){
-    setInterval(global.CurrentUser.get_token, 10*60*1000)
+  constructor(props){
+    super(props)
+    this.state = {
+      uname:'',
+      psw:'',
+      logState:false,
+      regState:false
+    }
+  }
+  // componentDidMount(){
+  //   setInterval(global.CurrentUser.get_token, 10*60*1000)
+  // }
+  handleChange = e => {
+    const {name, value} = e.target;
+    this.setState(() => ({
+      [name]: value
+    }))
+  }
+  setter = (p, state) =>{
+    console.log(p,state)
+    this.setState(() => ({
+      [p]:state,
+    }))
+  }
+
+  handleLogin = () => {
+    global.CurrentUser.get_token(this.setter, this.state)
+  }
+
+  handleReg = () =>{
+    global.CurrentUser.reg(this.setter, this.state)
+  }
+
+  componentWillUnmount(){
+    console.log(this.state)
   }
   render(){
+    const user = global.CurrentUser
     return (
-      <Loginob id="login" className="login" user={global.CurrentUser}/>
+    <div id="login" className={this.state.logState? "hidden":"bg"}>
+    <div className="logger_div">
+      <Input
+          placeholder="username"
+          prefix={<UserOutlined/>}
+          onChange={this.handleChange}
+          value={this.state.uname}
+          name="uname"
+          className = 'login_input'
+      />
+      <Input.Password
+        placeholder="password"
+        iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+        prefix={<UserOutlined/>}
+        onChange={this.handleChange}
+        value={this.state.psw}
+        name="psw"
+        className = 'login_input'
+      />
+      <div className='buttons'>
+      <Button onClick={this.handleLogin} type="primary" disabled={this.state.logState? true:false}>{user.state.logState? "Success":"Login"}</Button>
+      <Button onClick={this.handleReg} disabled={this.state.regState? true:false}>{this.state.regState? "Success": "Register"}</Button>
+      </div>
+    </div>
+    {/* <div id="bg" class={user.state.logState|!user.state.notAuth? "hidden":"bg"}>sada</div> */}
+    </div>
     );
   }
 }

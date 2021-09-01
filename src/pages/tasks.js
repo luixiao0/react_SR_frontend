@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import './tasks.css'
+import './Tasks.css'
 // import { List, Space, Button, PageHeader } from 'antd';
 // import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 // import { DownloadOutlined} from '@ant-design/icons'
@@ -133,14 +133,23 @@ class Tasks extends React.Component{
     // console.log(this.state)
   }
   handleClick = () => {
+    if(this.state.curpage === undefined){
+      this.setState({curpage: 1})
+    }
     global.CurrentUser.get_tasks(this.state.curpage, this.setter)
   }
   componentDidMount(){
+    this.handleClick()
     this.t = setInterval(()=>{
       this.handleClick()
       // console.log('refreshed')
     },10000)
   }
+
+  componentWillUnmount(){
+    clearInterval(this.t)
+  }
+
   render(){
     return (
       <div>

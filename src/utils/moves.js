@@ -2,16 +2,6 @@ import config from './config.json'
 
 export default class Userstate {
     Auth = ""
-    TasksList = []
-    TasksListfin = []
-    regState = false
-    logState = 0
-    notAuth = true
-    state = {
-        username:"",
-        password:""
-    }
-
     constructor() {
         this.Auth = localStorage.Auth
         this.logState = Number(localStorage.logState)
@@ -21,49 +11,54 @@ export default class Userstate {
         this.previewhref = this.backend + "/preview/"
         this.dloadhref = this.backend + "/me/dload?taskid="
         this.delhref = this.backend + "/deltask?taskid="
+
+        this.state = {
+          username:"",
+          password:""
+        }
     }
 
-    reg = () => {
+    reg = (setter, state) => {
         fetch(this.backend + "/reg",{
             method:"post",
             headers:{
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body:JSON.stringify(this.state)
+            body:JSON.stringify(state)
         }).catch(error => console.log(error))
         .then(res=>res.json()).then(data=>{
-            if (data === 'success')
-              this.regState = true
+            if (data === "success")
+            setter("regState", true)
         })
     }
     tokenHeader = () =>{return 'Bearer ' + this.Auth}
 
-    get_token = () => {
-        const tokenbody='username=' + this.state.username+'&password=' + this.state.password
-        console.log("token fetch")
-        fetch(this.backend +"/token",{
-            method:"post",
-            headers:{
-              "Accept": "application/json",
-              "Content-Type":"application/x-www-form-urlencoded"
-              },
-              body:tokenbody
-              }
-            )
-            .then(res=>res.json()).then(data=>{
-                if (data.access_token){
-                    this.logState = 1
-                    localStorage.logState = 1
-                    // var login=document.getElementById('logger_div');
-                    // var bg=document.getElementById('bg');
-                    // login.style.display="none";
-                    // bg.style.display="none";
-                    this.Auth = data.access_token
-                    localStorage.Auth = data.access_token
-                }
-
-            }).catch(error => console.log(error)) 
+    get_token = (setter, state) => {
+      console.log(state)
+      const tokenbody='username=' + state.uname+'&password=' + state.psw
+      console.log("token fetch")
+      fetch(this.backend +"/token",{
+        method:"post",
+        headers:{
+          "Accept": "application/json",
+          "Content-Type":"application/x-www-form-urlencoded"
+          },
+          body:tokenbody
+        }
+      )
+      .then(res=>res.json()).then(data=>{
+        if (data.access_token){
+          localStorage.logState = 1
+          // var login=document.getElementById('logger_div');
+          // var bg=document.getElementById('bg');
+          // login.style.display="none";
+          // bg.style.display="none";
+          this.Auth = data.access_token
+          localStorage.Auth = data.access_token
+          setter("logState", true)
+        }
+      }).catch(error => console.log(error)) 
     }
 
     deltask = (taskid) => {
@@ -165,17 +160,16 @@ export default class Userstate {
 
     logout = () => {
         this.Auth = ""
-        this.TasksList = []
-        this.TasksListfin = []
-        this.regState = false
-        this.logState = 0
-        this.notAuth = true
+        this.state = {
+          username:"",
+          password:""
+        }
         localStorage.clear();
-
-        var login=document.getElementById('logger_div');
-        var bg=document.getElementById('bg');
-        login.style.display="block";
-        bg.style.display="block";
+        // window.location.reload()
+        // var login=document.getElementById('logger_div');
+        // var bg=document.getElementById('bg');
+        // login.style.display="block";
+        // bg.style.display="block";
     }
 
     set_state_uname = (event) =>{
