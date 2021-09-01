@@ -3,15 +3,16 @@ import {Button} from 'antd';
 import { UserOutlined} from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Input } from 'antd';
-import { observer } from "mobx-react"
 import './login.css'
 
-import Userstate from '../utils/moves'
-global.CurrentUser = new Userstate()
+// import Userstate from '../utils/moves'
+// global.CurrentUser = new Userstate()
 
 // Build a "user interface" that uses the observable state.
 
-const Loginob = observer(({ user }) => (
+const Loginob = (props) => {
+  const {id,classname,user} = props
+  return (
   <div className={user.logState|!user.notAuth? "hidden":"bg"}>
   <div className={user.logState|!user.notAuth? "hidden":"logger_div"}>
     <Input
@@ -36,12 +37,17 @@ const Loginob = observer(({ user }) => (
   </div>
   {/* <div id="bg" class={user.state.logState|!user.state.notAuth? "hidden":"bg"}>sada</div> */}
   </div>
-))
+  )
+}
 
-function Login() {
-  // console.log(global.CurrentUser.logState, global.CurrentUser.notAuth)
+class LoginMain extends React.Component{
+  componentDidMount(){
+    setInterval(global.CurrentUser.get_token, 10*60*1000)
+  }
+  render(){
     return (
       <Loginob id="login" className="login" user={global.CurrentUser}/>
     );
+  }
 }
-export default Login
+export default LoginMain

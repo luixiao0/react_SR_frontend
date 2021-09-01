@@ -1,4 +1,3 @@
-import { makeAutoObservable, runInAction } from "mobx"
 import config from './config.json'
 
 export default class Userstate {
@@ -14,7 +13,6 @@ export default class Userstate {
     }
 
     constructor() {
-        makeAutoObservable(this)
         this.Auth = localStorage.Auth
         this.logState = Number(localStorage.logState)
         console.log(config)
@@ -42,8 +40,8 @@ export default class Userstate {
     tokenHeader = () =>{return 'Bearer ' + this.Auth}
 
     get_token = () => {
-        const tokenbody='username='+this.state.username+'&password='+ this.state.password
-        console.log(this.backend)
+        const tokenbody='username=' + this.state.username+'&password=' + this.state.password
+        console.log("token fetch")
         fetch(this.backend +"/token",{
             method:"post",
             headers:{
@@ -82,7 +80,7 @@ export default class Userstate {
         })
     }
 
-    dloadtask = (taskid) => {
+    DLtask = (taskid) => {
         console.log(taskid)
         fetch(this.dloadhref + taskid,{
             method:"get",
@@ -96,7 +94,7 @@ export default class Userstate {
             let filename = res.headers.get('content-disposition');
             console.log(res.headers.forEach((e)=>{console.log(e)}))
             if (filename) {
-                filename = filename.match(/\"(.*)\"/)[1]; //提取文件名
+                filename = filename.match(/"(.*)"/)[1]; //提取文件名
                 a.href = url;
                 a.download = filename; //给下载下来的文件起个名字
                 a.click();
@@ -106,11 +104,9 @@ export default class Userstate {
         }))
     }
 
-    get_tasks = () => {
-        runInAction(() => {
-        this.TasksList = []
-        this.TasksListfin = []})
-        fetch(this.backend +"/me/query",{
+    get_tasks = (page, setter) => {
+        fetch(this.backend +"/me/query/"+String(page),{
+        // fetch(this.backend +"/me/query/1",{
             method:"post",
             headers:{
               "accept": "application/json",
@@ -118,44 +114,23 @@ export default class Userstate {
             },
             body:""
             })
-            .then(res=>res.json()).then(data=>{
-                if (!data.detail){
-                    for (var key in data){
-                        const curtask = data[key]
-                        if (curtask === null){
-                            continue
-                        }
-                        // const dest = 'http://127.0.0.1:8000/preview/' + curtask.taskid
-                        // fetch(dest,{
-                        //     method:"get",
-                        //     headers:{
-                        //         "accept": "application/json",
-                        //         "Authorization": tokenHeader
-                        //     },
-                        // }).catch(error => console.log(error))
-                        // .then(response => response.blob())
-                        // .then(images => {
-                        //     // Then create a local URL for that image and print it 
-                        //     if (images){
-                        //         curtask.preview = URL.createObjectURL(images)
-                        //     }
-                            // console.log(curtask)
-                        //     
-                        // })
-                        if(curtask.state!==1){
-                            runInAction(() => {
-                                this.TasksList.push(curtask)
-                            })
-                        }
-                        else{
-                            runInAction(() => {
-                            this.TasksListfin.push(curtask)
-                            })
-                        }
-                    }
-                }
-            }
-        ).catch(error => console.log(error))
+            .then(res=>{
+              if(res.ok){
+                return res.json()
+              }
+            }).then(res=>{
+              let TasksList = []
+              if (!res.detail){
+                res.forEach((value, index)=>{
+                  const curtask = value
+                  if (curtask !== null){
+                    TasksList.push(curtask)
+                  }
+                })
+              }
+              setter(page, TasksList)
+            })
+            .catch(error => console.log(error))
     }
 
     newTask = (tasks, SRvar) => {
@@ -188,9 +163,7 @@ export default class Userstate {
             })
     }
 
-
     logout = () => {
-        
         this.Auth = ""
         this.TasksList = []
         this.TasksListfin = []
@@ -199,10 +172,10 @@ export default class Userstate {
         this.notAuth = true
         localStorage.clear();
 
-        // var login=document.getElementById('logger_div');
-        // var bg=document.getElementById('bg');
-        // login.style.display="block";
-        // bg.style.display="block";
+        var login=document.getElementById('logger_div');
+        var bg=document.getElementById('bg');
+        login.style.display="block";
+        bg.style.display="block";
     }
 
     set_state_uname = (event) =>{

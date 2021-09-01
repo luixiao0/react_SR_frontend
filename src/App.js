@@ -8,15 +8,16 @@ import './App.css'
 import Userstate from './utils/moves'
 import FirstPage from './pages/FirstPage'
 import Uploadpage from './pages/upload'
-const { Header, Content, Footer, Sider } = Layout;
-
+const { Content, Footer, Sider } = Layout;
+// const { Header, Content, Footer, Sider } = Layout;
 
 global.CurrentUser = new Userstate()
-
 
 function App() {
     return (
     <Layout>
+      
+      <LoginMain/>
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
@@ -35,7 +36,6 @@ function App() {
         
         <Layout className='app'>
           
-          <LoginMain/>
           
           {/* <div id="bg" className="bg">sada</div> */}
 
@@ -61,3 +61,5 @@ function App() {
 }
 
 export default App
+
+
