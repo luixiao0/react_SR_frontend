@@ -11,8 +11,6 @@ function DoubleRowTask() {
     return (
     <Row className='content'>
         <Tasks name='tasks'/>
-        {/* <Col flex={1}><Tasks name='tasks' fin/></Col> */}
-        {/* <Col flex={1}><Tasks name='unfinished'/></Col> */}
     </Row>
     )
 }

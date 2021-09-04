@@ -16,7 +16,7 @@ class LoginMain extends React.Component{
     this.state = {
       uname:localStorage.uname,
       psw:localStorage.psw,
-      logState:localStorage.logState,
+      logState:false,
       regState:false
     }
     this.handleLogin()
@@ -31,14 +31,17 @@ class LoginMain extends React.Component{
     }))
   }
   setter = (p, state) =>{
-    console.log(p,state)
     this.setState(() => ({
       [p]:state,
     }))
+    if(state){
+      setInterval(this.handleLogin,1000*60*10)
+    }
   }
 
   handleLogin = () => {
     global.CurrentUser.get_token(this.setter, this.state)
+
   }
 
   handleReg = () =>{
@@ -46,13 +49,15 @@ class LoginMain extends React.Component{
   }
 
   componentWillUnmount(){
-    console.log(this.state)
+    alert("umount login")
   }
+  
+
   render(){
     const user = global.CurrentUser
     return (
-    <div id="login" className={this.state.logState? "hidden":"bg"}>
-    <div className="logger_div">
+    <div id="login" className={this.state.logState? "hide bg":"bg"}>
+    <div className={this.state.logState? "hide logger_div":"logger_div"}>
       <Input
           placeholder="username"
           prefix={<UserOutlined/>}

@@ -1,22 +1,28 @@
 import config from './config.json'
 
 export default class Userstate {
-  Auth = ""
   constructor() {
-      this.Auth = localStorage.Auth
-      this.logState = Number(localStorage.logState)
-      console.log(config)
-      this.backend = config.backend_address
-      
-      this.previewhref = this.backend + "/preview/"
-      this.dloadhref = this.backend + "/me/dload?taskid="
-      this.delhref = this.backend + "/deltask?taskid="
+    this.Auth = localStorage.Auth
+    this.logState = Number(localStorage.logState)==="1"?1:0
 
-      this.state = {
-        username:"",
-        password:""
-      }
+    console.log(config)
+    this.backend = config.backend_address
+    
+    this.previewhref = this.backend + "/preview/"
+    this.dloadhref = this.backend + "/me/dload?taskid="
+    this.delhref = this.backend + "/deltask?taskid="
+
+    this.state = {
+      username:"",
+      password:""
+    }
+    this.events = {};
   }
+
+  sub = (event, callback) => {
+    return this.events[event].push(callback);
+  }
+
 
   reg = (setter, state) => {
       fetch(this.backend + "/reg",{
@@ -35,9 +41,9 @@ export default class Userstate {
   tokenHeader = () =>{return 'Bearer ' + this.Auth}
 
   get_token = (setter, state) => {
-    console.log(state)
+    // console.log(state)
     const tokenbody='username=' + state.uname+'&password=' + state.psw
-    console.log("token fetch")
+    // console.log("token fetch")
     fetch(this.backend +"/token",{
       method:"post",
       headers:{
@@ -47,15 +53,26 @@ export default class Userstate {
         body:tokenbody
       }
     )
-    .then(res=>res.json()).then(data=>{
+    .then(res=>{
+      if(res.ok){
+        return res.json()
+      }
+      else{
+        console.log("login failed")
+        localStorage.logState = false
+        setter("logState", false)
+      }
+      }).then(data=>{
+      // console.log(data)
       if (data.access_token){
-        localStorage.logState = 1
+        localStorage.logState = true
         // var login=document.getElementById('logger_div');
         // var bg=document.getElementById('bg');
         // login.style.display="none";
         // bg.style.display="none";
+        localStorage.uname = state.uname
+        localStorage.psw = state.psw
         this.Auth = data.access_token
-        localStorage.Auth = data.access_token
         setter("logState", true)
       }
     }).catch(error => console.log(error)) 
@@ -120,11 +137,11 @@ export default class Userstate {
         res.forEach((value, index)=>{
           const curtask = value
           if (curtask !== null){
-            TasksList.push(curtask)
+            TasksList.unshift(curtask)
           }
         })
       }
-      setter(page, TasksList)
+      setter(page, TasksList, true)
     })
     .catch(error => console.log(error))
   }
@@ -140,14 +157,14 @@ export default class Userstate {
       return response.blob();
     }).then((myBlob) => {
       let objectURL = URL.createObjectURL(myBlob);
-      console.log(objectURL)
+      // console.log(objectURL)
       setter(objectURL);
     });
   }
 
   newTask = (tasks, SRvar) => {
       let formData = new FormData()
-      console.log(formData)
+      // console.log(formData)
       tasks.forEach(file => {
           if(['image/jpeg', 'image/gif', 'image/png', 'image/svg+xml'].includes(file.type)) {
               formData.append("files", file); 
@@ -167,9 +184,6 @@ export default class Userstate {
           body:formData
           })
           .then(response => response.json())
-          .then(data => {
-            console.log(data)
-          })
           .catch(error => {
             console.error(error)
           })

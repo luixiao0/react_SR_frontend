@@ -1,3 +1,12 @@
 .content{
     min-height: 87vh !important;
 }
+.slider{
+    min-width: 350px;
+}
+.align-right{
+    float: right;
+}
+.align-center{
+    text-align: center;
+}

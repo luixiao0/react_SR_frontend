@@ -6,7 +6,10 @@ import './Tasks.css'
 // import { DownloadOutlined} from '@ant-design/icons'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Card, Avatar } from 'antd';
+import { Button, Tooltip } from 'antd';
 import LazyLoad from 'react-lazyload';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Divider } from 'antd';
 const { Meta } = Card;
 
 class Image extends React.Component{
@@ -23,9 +26,14 @@ class Image extends React.Component{
     // console.log(this.state)
   }
   componentDidMount(){
-    global.CurrentUser.get_preview(this.props.id, this.setter)
+    if(!this.state.img){
+      global.CurrentUser.get_preview(this.props.id, this.setter)
+    }
   }
-
+  componentWillUnmount(){
+    // console.log(this.state.img)
+    URL.revokeObjectURL(this.state.img)
+  }
   render(){
     return(
       <>
@@ -36,47 +44,47 @@ class Image extends React.Component{
 }
 
 class Taskcard extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      DLload : false,
+      Delload : false
+    }
+  }
   shouldComponentUpdate(nextProps, nextState){
+    // console.log('check')
+    if (nextState.DLload !== this.state.DLload || nextState.Delload !== this.state.Delload){
+      return true
+    }
     if(nextProps.taskstate === this.props.taskstate) {
       return false
     }
     return true 
   }
   handleDelclick = () => {
-    console.log(this.props.id,'del')
+    this.setState({Delload: true})
     global.CurrentUser.deltask(this.props.id)
+    this.setState({Delload: false})
     this.props.refresh()
   }
   handleDLclick = () => {
+    this.setState({DLload: true})
     global.CurrentUser.DLtask(this.props.id)
+    this.setState({DLload: false})
     // console.log(this.props.id,'DL')
     // global.CurrentUser.DLtask(taskid)
-  }
-  componentDidUpdate(){
-    console.log(this.props.id)
   }
   render() {
     if (this.props.taskstate===1){
       this.finished = true
     }
+    else{
+      this.finished = false
+      if (this.props.taskstate===-1){
+        this.failed = true
+      }
+    }
     return (
-      // <div>
-      //   <div>
-      //     <h2>{this.props.title}</h2>
-      //     <figure className={this.finished?"circle active": "circle inactive"}></figure>
-      //     <div>
-      //       <button disabled={this.finished?false:true} onClick={this.handleDLclick}>download</button>
-      //       <button disabled={this.props.taskstate<=3?false:true} onClick={this.handleDelclick}>delete</button>
-      //     </div>
-      //   </div>
-      //   <div>
-          // <LazyLoad>
-          //   <Image id={this.props.id}/>
-          // </LazyLoad>
-      //     <p>{this.props.id}</p>
-
-      //   </div>
-      // </div>
       <Card className="cards"
         cover={
           <LazyLoad>
@@ -84,18 +92,24 @@ class Taskcard extends React.Component{
           </LazyLoad>
         }
         actions={[
-          <span>{this.props.params[0]} </span>,
-          <span>{this.props.params[1]} </span>,
-          <span>{this.props.params[2]} </span>
+          <Button type="primary" disabled={this.finished?false:true} loading={this.state.DLload} onClick={this.handleDLclick} icon={<DownloadOutlined />}>下载</Button>,
+          <Button type="primary" loading={this.state.Delload} onClick={this.handleDelclick} icon={<DownloadOutlined />}>删除</Button>
           // <SettingOutlined key="setting" />,
           // <EditOutlined key="edit" />,
           // <EllipsisOutlined key="ellipsis" />,
         ]}
       >
         <Meta
-          avatar={<figure className={this.finished?"circle active": "circle inactive"}/>}
-          title={this.props.id}
-          description={this.props.title}
+          avatar={<Tooltip title="任务状态"><figure className={this.finished?"circle active": this.failed?"circle failed":"circle inactive"}/></Tooltip>}
+          title={
+          <div>
+          <Tooltip title={this.props.title}>{this.props.id}</Tooltip>
+          <span className="align-right">
+            <Tooltip title="噪声"><span>{this.props.params[0]} </span> <Divider type="vertical" /></Tooltip>
+            <Tooltip title="放大倍数"><span>{this.props.params[1]} </span> <Divider type="vertical" /> </Tooltip>
+            <Tooltip title="自定义核大小"><span>{this.props.params[2]} </span> <Divider type="vertical" /> </Tooltip>
+          </span></div>}
+          // description={this.props.title}
         />
       </Card>
     );
@@ -108,30 +122,35 @@ class Tasks extends React.Component{
     super(props);
     this.state = {
       curpage: 1,
-      Tasks: []
+      Tasks: [],
+      loaded:false
     };
-    this.setter.bind(this)
+    // this.setter.bind(this)
   }
-  setter = (page, task) =>{
+  setter = (page, task, loadstat) =>{
+    console.log("loaded",loadstat)
     this.setState({
         curpage: page,
-        Tasks: task
+        Tasks: task,
+        loaded: loadstat
     })
     // console.log(this.state)
   }
   handleClick = () => {
+    this.setState({loaded: false})
+
     if(this.state.curpage === undefined){
       this.setState({curpage: 1})
     }
     global.CurrentUser.get_tasks(this.state.curpage, this.setter)
-    console.log('refreshed')
+    // console.log('refreshed')
   }
   componentDidMount(){
-    this.handleClick()
+    setTimeout(this.handleClick,1000)
     this.t = setInterval(()=>{
       this.handleClick()
       // console.log('refreshed')
-    },10000)
+    },5000)
   }
 
   componentWillUnmount(){
@@ -141,13 +160,17 @@ class Tasks extends React.Component{
   render(){
     return (
       <>
-        <button onClick={this.handleClick}>change</button>
-        <div className="content">
+      <Tooltip title="刷新状态"><figure className={this.state.loaded?"circle active": "circle inactive"}/></Tooltip>
         {this.state.Tasks.map(task=>{
           // console.log(task)
-          return <Taskcard refresh={this.handleClick} key={task.id} id={task.id} title={task.date} taskstate={task.s} params={task.p}/>
+          return <Taskcard 
+            refresh={this.handleClick} 
+            key={task.id} 
+            id={task.id} 
+            title={task.date} 
+            taskstate={task.s} 
+            params={task.p}/>
         })}
-        </div>
       </>
     )
   }

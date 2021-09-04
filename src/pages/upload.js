@@ -4,7 +4,7 @@ import { Upload, Button } from 'antd';
 import { InboxOutlined,WarningOutlined } from '@ant-design/icons';
 import './minh.css'
 import { Slider, InputNumber, Row, Col } from 'antd';
-import Tasks from './Tasks'
+import DoubleRowTask from './DoubleRowTask'
 
 // const { Dragger } = Upload;
 
@@ -48,7 +48,7 @@ class SliderUpload extends React.Component{
         };
     
         return (
-          <>
+          <div className="align-center">
             <Upload {...props}>
               <Button icon={<InboxOutlined />}>选择文件</Button>
             </Upload>
@@ -63,47 +63,21 @@ class SliderUpload extends React.Component{
             >
               {uploading ? '正在上传' : '开始上传'}
             </Button>
-          </>
+          </div>
         );
       }
     }
 
 
 
-//     render(){
-//         return(
-//             <div>
-//             <Dragger {...this.action}>
-//             <p className="ant-upload-drag-icon">
-//                 <InboxOutlined />
-//             </p>
-//             <p className="ant-upload-text">Click or drag file to this area to upload</p>
-//             <p className="ant-upload-hint">
-//                 当前参数：
-//                 倍数:{this.props.state["scale"]},  
-//                 噪声等级:{this.props.state["noiselevel"]},  
-//                 核宽度:{this.props.state["kernel_width"]}
-//             </p>
-//             </Dragger>
-//             </div>
-//         )
-//     }
-
-// }
-
 
 
 
 class CusSlider extends React.Component{
-    // constructor (props) {
-    //     super(props);
-    // }
-
     onFieldChange = value => {
         if (isNaN(value)) {
             return;
         }
-        // for a regular input field, read field name and value from the event
         const fieldName = this.props.name;
         const fieldValue = value;
         this.props.onChange(fieldName, fieldValue);
@@ -149,7 +123,7 @@ class Sliders extends React.Component{
     };
     render(){
         return(
-            <div>
+            <div className="slider">
                 
             <h3>设置</h3>
             <CusSlider 
@@ -183,38 +157,45 @@ class Sliders extends React.Component{
 
 
 class Uploadpage extends React.Component{
-    state = {
-        scale:2,
-        noiselevel:3,
-        kernel_width:0,
-    };
+  state = {
+    scale:2,
+    noiselevel:3,
+    kernel_width:0,
+  };
 
-    onChange(name, value){
-        this.setState({
-            [name]: value,
-        });
-    }
+  onChange(name, value){
+    this.setState({
+        [name]: value,
+    });
+  }
 
-    componentDidMount(){
-        global.CurrentUser.get_tasks()
-    }
+  componentDidMount(){
+    setTimeout(global.CurrentUser.get_tasks, 1000);
+  }
 
-
-    render(){
-        return(
-            <div className="content">
-                {/* <hr/> */}
-                    帮助文本
-                {/* <hr/> */}
-                <Row className='row'>
-                    <Col flex={1}><Sliders onChange={this.onChange.bind(this)} state={this.state}/></Col>
-                    <Col flex={1}><SliderUpload state={this.state}/></Col>
-                </Row>
-                {/* <hr/> */}
-                <Tasks/>
-            </div>
-        )
-    }
+  render(){
+    return(
+      <>
+      {/* <div className="content"> */}
+          {/* <hr/> */}
+          <div className="helps">
+              <div>scale:放大倍率,默认2倍</div>
+              <div>noiselevel:噪声主观等级,噪点越多则越高(处理后图像更平滑)</div>
+              <div>kernel_width: 反模糊,默认0-自动,大于1的值会输出更锐利的边缘</div>
+          </div>
+          {/* <hr/> */}
+          <Row className='row'>
+              <Col flex={1}><Sliders onChange={this.onChange.bind(this)} state={this.state}/></Col>
+              <Col flex={1}><SliderUpload state={this.state}/></Col>
+          </Row>
+          {/* <hr/> */}
+      {/* </div> */}
+      <div>
+        <DoubleRowTask/>
+      </div>
+      </>
+    )
+  }
 }
 
 export default Uploadpage
