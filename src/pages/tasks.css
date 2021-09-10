@@ -19,26 +19,30 @@
 
 .images{
     width: 100%;
+    height: auto;
 }
 
 @media screen and (min-width: 1024px) {
     .cards{
-        width: 24.5%;
-        margin: 1rem auto;
+        /* margin: 1rem auto; */
+        /* padding-bottom: 75%; */
+        max-width: 32%;
+        margin: 1rem 0.5rem;
     }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023.98px) {
     .cards{
-        min-width: 200px;
-        max-width: 300px;
-        margin: 1rem auto;
+        max-width: 45%;
+        margin-top: 1rem;
+
+        /* margin: 1rem auto; */
     }
     
 }
 @media screen and (max-width: 767.98px) {
     .cards{
-        width: 100%;
-        margin-top: 1vh;
+        /* width: 100%; */
+        margin-top: 1rem;
     }
 }

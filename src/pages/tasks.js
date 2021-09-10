@@ -9,7 +9,7 @@ import { Card, Avatar } from 'antd';
 import { Button, Tooltip } from 'antd';
 import LazyLoad from 'react-lazyload';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Divider } from 'antd';
+import { Tag, Divider } from 'antd';
 const { Meta } = Card;
 
 class Image extends React.Component{
@@ -43,16 +43,43 @@ class Image extends React.Component{
   }
 }
 
+const Tooltips = (params) => {
+  const scale = params.params.scale
+  const anime = params.params.anime
+  if(anime){
+    return(
+      <>
+      {/* <Tooltip title="噪声"><span>{this.props.params.noise} </span> <Divider type="vertical" /></Tooltip> */}
+      <Tooltip title="放大倍数"><Tag>{scale}x</Tag></Tooltip>
+      {/* <Tooltip title="自定义核大小"><span>{this.props.params.kernel_width} </span> <Divider type="vertical" /> </Tooltip> */}
+      <Tooltip title="动漫图片"><Tag color="cyan">动漫图片</Tag></Tooltip>
+      </>
+    )
+    
+  }
+  else{
+    return(
+      <>
+      {/* <Tooltip title="噪声"><span>{this.props.params.noise} </span> <Divider type="vertical" /></Tooltip> */}
+      <Tooltip title="放大倍数"><Tag>{scale}x</Tag></Tooltip>
+      {/* <Tooltip title="自定义核大小"><span>{this.props.params.kernel_width} </span> <Divider type="vertical" /> </Tooltip> */}
+      <Tooltip title="真实图片"><Tag color="blue">真实图片</Tag></Tooltip>
+      </>
+    )
+
+  }
+}
+
+
 class Taskcard extends React.Component{
   constructor(props){
     super(props)
     this.state = {
       DLload : false,
-      Delload : false
+      Delload : false,
     }
   }
   shouldComponentUpdate(nextProps, nextState){
-    // console.log('check')
     if (nextState.DLload !== this.state.DLload || nextState.Delload !== this.state.Delload){
       return true
     }
@@ -63,16 +90,17 @@ class Taskcard extends React.Component{
   }
   handleDelclick = () => {
     this.setState({Delload: true})
-    global.CurrentUser.deltask(this.props.id)
-    this.setState({Delload: false})
-    this.props.refresh()
+    global.CurrentUser.deltask(this.props.id, ()=>{
+      this.setState({Delload: false})
+      this.props.refresh()
+    })
   }
   handleDLclick = () => {
     this.setState({DLload: true})
-    global.CurrentUser.DLtask(this.props.id)
-    this.setState({DLload: false})
-    // console.log(this.props.id,'DL')
-    // global.CurrentUser.DLtask(taskid)
+    global.CurrentUser.DLtask(this.props.id, ()=>{
+      this.setState({DLload: false})
+      this.props.refresh()
+    })
   }
   render() {
     if (this.props.taskstate===1){
@@ -92,7 +120,7 @@ class Taskcard extends React.Component{
           </LazyLoad>
         }
         actions={[
-          <Button type="primary" disabled={this.finished?false:true} loading={this.state.DLload} onClick={this.handleDLclick} icon={<DownloadOutlined />}>下载</Button>,
+          <Button type="primary" loading={this.state.DLload} disabled={this.finished?false:true} onClick={this.handleDLclick} icon={<DownloadOutlined />}>下载</Button>,
           <Button type="primary" loading={this.state.Delload} onClick={this.handleDelclick} icon={<DownloadOutlined />}>删除</Button>
           // <SettingOutlined key="setting" />,
           // <EditOutlined key="edit" />,
@@ -105,9 +133,7 @@ class Taskcard extends React.Component{
           <div>
           <Tooltip title={this.props.title}>{this.props.id}</Tooltip>
           <span className="align-right">
-            <Tooltip title="噪声"><span>{this.props.params[0]} </span> <Divider type="vertical" /></Tooltip>
-            <Tooltip title="放大倍数"><span>{this.props.params[1]} </span> <Divider type="vertical" /> </Tooltip>
-            <Tooltip title="自定义核大小"><span>{this.props.params[2]} </span> <Divider type="vertical" /> </Tooltip>
+            <Tooltips params={this.props.params}/>
           </span></div>}
           // description={this.props.title}
         />
@@ -161,16 +187,18 @@ class Tasks extends React.Component{
     return (
       <>
       <Tooltip title="刷新状态"><figure className={this.state.loaded?"circle active": "circle inactive"}/></Tooltip>
-        {this.state.Tasks.map(task=>{
-          // console.log(task)
-          return <Taskcard 
-            refresh={this.handleClick} 
-            key={task.id} 
-            id={task.id} 
-            title={task.date} 
-            taskstate={task.s} 
-            params={task.p}/>
-        })}
+      {/* <div> */}
+      {this.state.Tasks.map(task=>{
+        // console.log(task)
+        return <Taskcard 
+          refresh={this.handleClick} 
+          key={task.id} 
+          id={task.id} 
+          title={task.date} 
+          taskstate={task.s} 
+          params={task.p}/>
+      })}
+      {/* </div> */}
       </>
     )
   }

@@ -51,7 +51,6 @@ class LoginMain extends React.Component{
   componentWillUnmount(){
     alert("umount login")
   }
-  
 
   render(){
     const user = global.CurrentUser

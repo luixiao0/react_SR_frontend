@@ -78,7 +78,7 @@ export default class Userstate {
     }).catch(error => console.log(error)) 
   }
 
-  deltask = (taskid) => {
+  deltask = (taskid, s) => {
       console.log(taskid)
       fetch(this.delhref + taskid,{
           method:"post",
@@ -88,11 +88,12 @@ export default class Userstate {
           },
           body: ""
       }).then(res=>{
-          console.log(res)
+          s()
+          // console.log(res)
       })
   }
 
-  DLtask = (taskid) => {
+  DLtask = (taskid, s) => {
       console.log(taskid)
       fetch(this.dloadhref + taskid,{
           method:"get",
@@ -105,6 +106,7 @@ export default class Userstate {
           let url = window.URL.createObjectURL(blob);
           let filename = res.headers.get('content-disposition');
           console.log(res.headers.forEach((e)=>{console.log(e)}))
+          s()
           if (filename) {
               filename = filename.match(/"(.*)"/)[1]; //提取文件名
               a.href = url;
@@ -137,7 +139,7 @@ export default class Userstate {
         res.forEach((value, index)=>{
           const curtask = value
           if (curtask !== null){
-            TasksList.unshift(curtask)
+            TasksList.push(curtask)
           }
         })
       }
@@ -162,7 +164,7 @@ export default class Userstate {
     });
   }
 
-  newTask = (tasks, SRvar) => {
+  newTask = (tasks, SRvar, s) => {
       let formData = new FormData()
       // console.log(formData)
       tasks.forEach(file => {
@@ -171,8 +173,7 @@ export default class Userstate {
           }
       });
       // console.log(formData)
-      const SRspell = "?noise=" + SRvar.noiselevel + "&sf=" + SRvar.scale + "&width=" + SRvar.kernel_width
-      const newTaskspell = this.backend + "/me/newtask/" + SRspell
+      const newTaskspell = this.backend + "/me/newtask/?args=" + JSON.stringify(SRvar);
       // console.log(newTaskspell)
       fetch(newTaskspell,{
           method:"POST",
@@ -186,7 +187,7 @@ export default class Userstate {
           .then(response => response.json())
           .catch(error => {
             console.error(error)
-          })
+          }).finally(()=>{s()})
   }
 
   logout = () => {
