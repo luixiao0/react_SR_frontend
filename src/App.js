@@ -12,9 +12,6 @@ import Uploadpage from './pages/upload'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
 } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
 

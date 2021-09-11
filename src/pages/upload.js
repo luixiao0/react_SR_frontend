@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { Upload, Button } from 'antd';
 import { InboxOutlined,WarningOutlined,UploadOutlined,SmileOutlined } from '@ant-design/icons';
 import './minh.css'
-import { Slider, InputNumber, Row, Col, Divider,Menu } from 'antd';
+import { Slider, InputNumber, Row, Col,Menu } from 'antd';
 import Tasks from './Tasks.js'
 import { AppstoreOutlined } from '@ant-design/icons';
 

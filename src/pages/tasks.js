@@ -1,16 +1,14 @@
 import React from 'react';
-import 'antd/dist/antd.css';
 import './Tasks.css'
 // import { List, Space, Button, PageHeader } from 'antd';
 // import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 // import { DownloadOutlined} from '@ant-design/icons'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Card, Empty } from 'antd';
 import { Button, Tooltip,Spin } from 'antd';
 import LazyLoad from 'react-lazyload';
 import { DownloadOutlined,LoadingOutlined } from '@ant-design/icons';
 
-import { Tag, Divider } from 'antd';
+import { Tag } from 'antd';
 const { Meta } = Card;
 
 class Image extends React.Component{
@@ -26,15 +24,21 @@ class Image extends React.Component{
     })
     // console.log(this.state)
   }
+  // shouldComponentUpdate(props, state){
+  //   if(state.img != this.state.img){
+  //     return true
+  //   }
+  //   return false
+  // }
   componentDidMount(){
     if(!this.state.img){
       global.CurrentUser.get_preview(this.props.id, this.setter)
     }
   }
-  componentWillUnmount(){
-    // console.log(this.state.img)
-    URL.revokeObjectURL(this.state.img)
-  }
+  // componentWillUnmount(){
+  //   // console.log(this.state.img)
+  //   URL.revokeObjectURL(this.state.img)
+  // }
   render(){
     return(
       <>
@@ -192,7 +196,6 @@ class Tasks extends React.Component{
         <Empty image={<Spin indicator={<LoadingOutlined style={{fontSize:24}} spin/>} />} />:
         <div className="container">
           {this.state.Tasks.map(task=>{
-            // console.log(task)
             return <Taskcard 
               refresh={this.handleClick} 
               key={task.id} 
