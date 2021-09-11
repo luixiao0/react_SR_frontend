@@ -1,103 +1,9 @@
 import React from 'react';
-import 'antd/dist/antd.css';
-import { Upload, Button } from 'antd';
-import { InboxOutlined,WarningOutlined,UploadOutlined,SmileOutlined } from '@ant-design/icons';
 import './minh.css'
 import { Slider, Row, Col,Menu } from 'antd';
 import Tasks from './Tasks.js'
-import { AppstoreOutlined } from '@ant-design/icons';
-
-// const { SubMenu } = Menu;
-const { Dragger } = Upload;
-
-class SliderUpload extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      fileList: [],
-      uploading: false
-    };
-  }
-  handleUpload = () => {
-    this.setState({
-      uploading: true,
-    });
-    const fileList = this.state.fileList
-    const SRvars = this.props.state
-    global.CurrentUser.newTask(fileList, SRvars, ()=>{this.setState({
-      fileList: [],
-      uploading: false,
-    })})
-  };
-  
-  toggle = () => {
-    this.setState({show: !this.state.show})
-  }
-  render() {
-    const { fileList, uploading } = this.state;
-    const props = {
-      multiple: true,
-      showUploadList: this.state.show,
-      onRemove: file => {
-        this.setState(state => {
-          const index = state.fileList.indexOf(file);
-          const newFileList = state.fileList.slice();
-          newFileList.splice(index, 1);
-          return {
-            fileList: newFileList,
-            uploading: false
-          };
-        });
-      
-      },
-      beforeUpload: file => {
-        this.setState(state => ({
-          fileList: [...state.fileList, file],
-        }));
-        return false;
-      },
-      fileList,
-    };
-
-
-    return (
-      <div className="align-center">
-        {/* <Upload {...props}>
-          <Button icon={<InboxOutlined />}>选择文件</Button>
-        </Upload> */}
-        <Dragger {...props}>
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-hint">{this.state.fileList.length? String(this.state.fileList.length)+" file":"Click or drag file to this area to upload"}</p>
-        </Dragger>
-        
-        <Button
-          icon ={<UploadOutlined />}
-          type="primary"
-          onClick={this.handleUpload}
-          disabled={fileList.length === 0}
-          loading={uploading}
-          style={{ marginTop: 16 }}
-        >
-          {uploading ? '正在上传' : '开始上传'}
-        </Button>
-        <Button
-          icon ={<WarningOutlined />}
-          type="secondary"
-          onClick={this.toggle}
-          // disabled={fileList.length === 0}
-          style={{ marginTop: 16 }}
-        >
-          {this.state.show ? '显示列表' : '隐藏列表'}
-        </Button>
-      </div>
-    );
-  }
-}
-
-
-
+import Uploader from '../utils/Uploader.js';
+import { AppstoreOutlined,SmileOutlined } from '@ant-design/icons';
 
 
 
@@ -133,16 +39,6 @@ class CusSlider extends React.Component{
                 />
             </Col>
             <Col flex={1}/>
-            {/* <Col flex={1}>
-                <InputNumber
-                min={this.props.min}
-                max={this.props.max}
-                style={{ margin: '0 16px' }}
-                step={this.props.step}
-                onChange={this.onFieldChange}
-                value={this.props.inputValue}
-                />
-            </Col> */}
         </Row>
     )
     }
@@ -151,9 +47,6 @@ class CusSlider extends React.Component{
 
 
 class Sliders extends React.Component{
-    // constructor (props) {
-    //     super(props);
-    // }
   onChange (name, value) {
     this.props.onChange(name, value);
   };
@@ -257,7 +150,7 @@ class Uploadpage extends React.Component{
       <>
         <Row className='row'>
             <Col flex={5} ><Sliders onChange={this.onChange.bind(this)} state={this.state}/></Col>
-            <Col flex={5} offset={1}><SliderUpload state={this.state}/></Col>
+            <Col flex={5} offset={1}><Uploader state={this.state}/></Col>
             <Col flex={1} ></Col>
         </Row>
       <div>

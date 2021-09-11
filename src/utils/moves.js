@@ -5,7 +5,6 @@ export default class Userstate {
     this.Auth = localStorage.Auth
     this.logState = Number(localStorage.logState)==="1"?1:0
 
-    console.log(config)
     this.backend = config.backend_address
     
     this.previewhref = this.backend + "/preview/"
@@ -16,13 +15,7 @@ export default class Userstate {
       username:"",
       password:""
     }
-    this.events = {};
   }
-
-  sub = (event, callback) => {
-    return this.events[event].push(callback);
-  }
-
 
   reg = (setter, state) => {
       fetch(this.backend + "/reg",{
@@ -63,13 +56,8 @@ export default class Userstate {
         setter("logState", false)
       }
       }).then(data=>{
-      // console.log(data)
       if (data.access_token){
         localStorage.logState = true
-        // var login=document.getElementById('logger_div');
-        // var bg=document.getElementById('bg');
-        // login.style.display="none";
-        // bg.style.display="none";
         localStorage.uname = state.uname
         localStorage.psw = state.psw
         this.Auth = data.access_token
@@ -173,7 +161,6 @@ export default class Userstate {
       headers:{
         "accept": "application/json",
         "Authorization": this.tokenHeader(),
-      //   "Content-Type": "multipart/form-data"
       },
       body:formData
     }).then(response => response.json()
@@ -189,11 +176,6 @@ export default class Userstate {
         password:""
       }
       localStorage.clear();
-      // window.location.reload()
-      // var login=document.getElementById('logger_div');
-      // var bg=document.getElementById('bg');
-      // login.style.display="block";
-      // bg.style.display="block";
   }
 
   set_state_uname = (event) =>{
@@ -202,5 +184,4 @@ export default class Userstate {
   set_state_psw = (event) =>{
       this.state.password = event.target.value
   }
-    
 }
