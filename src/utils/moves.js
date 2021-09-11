@@ -164,31 +164,30 @@ export default class Userstate {
     });
   }
 
+
   newTask = (tasks, SRvar, s) => {
     const newTaskspell = this.backend + "/me/newtask/?args=" + JSON.stringify(SRvar);
     let formData = new FormData()
-    // console.log(formData)
-    tasks.forEach(file => {
-      formData.append("files", file); 
-        // if(['image/jpeg', 'image/gif', 'image/png', 'image/svg+xml'].includes(file.type)) {
-        //     formData.append("files", file); 
-        // }
-    });
-    console.log(formData.getAll())
-    // fetch(newTaskspell,{
-    //   method:"POST",
-    //   headers:{
-    //     "accept": "application/json",
-    //     "Authorization": this.tokenHeader(),
-    //   //   "Content-Type": "multipart/form-data"
-    //   },
-    //   body:formData
-    //   })
-    //   .then(response => response.json())
-    //   .catch(error => {
-    //     console.error(error)
-    //   }).finally(()=>{s()})
-    s()
+    while (tasks.length){
+      formData.set("files", tasks.pop()); 
+      fetch(newTaskspell,{
+        method:"POST",
+        headers:{
+          "accept": "application/json",
+          "Authorization": this.tokenHeader(),
+        //   "Content-Type": "multipart/form-data"
+        },
+        body:formData
+        })
+        .then(response => response.json())
+        .catch(error => {
+          console.error(error)
+      }).finally(()=>{
+        if(tasks.length === 1){
+          s()
+        }
+      })
+    }
   }
 
   logout = () => {

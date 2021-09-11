@@ -1,16 +1,14 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Upload, Button } from 'antd';
-import { InboxOutlined,WarningOutlined } from '@ant-design/icons';
+import { InboxOutlined,WarningOutlined,UploadOutlined,SmileOutlined } from '@ant-design/icons';
 import './minh.css'
-import { Slider, InputNumber, Row, Col } from 'antd';
+import { Slider, InputNumber, Row, Col, Divider,Menu } from 'antd';
 import Tasks from './Tasks.js'
-import { Menu } from 'antd';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
-import { Divider } from 'rc-menu';
+import { AppstoreOutlined } from '@ant-design/icons';
 
-const { SubMenu } = Menu;
-// const { Dragger } = Upload;
+// const { SubMenu } = Menu;
+const { Dragger } = Upload;
 
 class SliderUpload extends React.Component{
   constructor(props){
@@ -18,6 +16,7 @@ class SliderUpload extends React.Component{
     this.state = {
       fileList: [],
       uploading: false,
+      show:false
     };
   }
   handleUpload = () => {
@@ -26,17 +25,20 @@ class SliderUpload extends React.Component{
     });
     const fileList = this.state.fileList
     const SRvars = this.props.state
-    global.CurrentUser.newTask(fileList, SRvars, ()=>{this.setState({uploading: false})})
-    // setTimeout(()=>{
-    //   this.setState({
-    //     uploading: false,
-    //   });
-    // },1000)
-
+    global.CurrentUser.newTask(fileList, SRvars, ()=>{this.setState({
+      fileList: [],
+      uploading: false,
+    })})
   };
-    render() {
+  
+  toggle = () => {
+    this.setState({show: !this.state.show})
+  }
+  render() {
     const { fileList, uploading } = this.state;
     const props = {
+      multiple: true,
+      showUploadList: this.state.show,
       onRemove: file => {
         this.setState(state => {
           const index = state.fileList.indexOf(file);
@@ -47,6 +49,7 @@ class SliderUpload extends React.Component{
             uploading: false
           };
         });
+      
       },
       beforeUpload: file => {
         this.setState(state => ({
@@ -57,14 +60,21 @@ class SliderUpload extends React.Component{
       fileList,
     };
 
+
     return (
       <div className="align-center">
-        <Upload {...props}>
+        {/* <Upload {...props}>
           <Button icon={<InboxOutlined />}>选择文件</Button>
-        </Upload>
-
+        </Upload> */}
+        <Dragger {...props}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-hint">{this.state.fileList.length? String(this.state.fileList.length)+" file":"Click or drag file to this area to upload"}</p>
+        </Dragger>
+        
         <Button
-          icon ={<WarningOutlined />}
+          icon ={<UploadOutlined />}
           type="primary"
           onClick={this.handleUpload}
           disabled={fileList.length === 0}
@@ -72,6 +82,15 @@ class SliderUpload extends React.Component{
           style={{ marginTop: 16 }}
         >
           {uploading ? '正在上传' : '开始上传'}
+        </Button>
+        <Button
+          icon ={<WarningOutlined />}
+          type="secondary"
+          onClick={this.toggle}
+          // disabled={fileList.length === 0}
+          style={{ marginTop: 16 }}
+        >
+          {this.state.show ? '显示列表' : '隐藏列表'}
         </Button>
       </div>
     );
@@ -142,18 +161,18 @@ class Sliders extends React.Component{
   tips = () =>{
     if(this.props.state.anime){
       return (
-        <>
+        <div className="tips">
           <div>scale:放大倍率,默认4倍</div>
-        </>
+        </div>
       )
     }
     else{
       return (
-        <>
+        <div className="tips">
           <div>scale:放大倍率,默认2倍</div>
           <div>noiselevel:主观噪声,噪点越多则越高(处理后图像更平滑)</div>
           <div>kernelwidth:模糊核,默认0,越高的值会输出更锐利的边缘</div>
-        </>
+        </div>
       )
     }
   }
@@ -162,13 +181,14 @@ class Sliders extends React.Component{
     return(
       <div className="slider">
         <Menu selectedKeys={[this.props.state.anime?'2':'3']} mode="horizontal">
-          <Menu.Item key='3' icon={<AppstoreOutlined />} onClick={()=>{
+          <Menu.Item key='3' 
+            disabled icon={<AppstoreOutlined />} onClick={()=>{
             this.onChange("anime", false)
             this.onChange('scale', 2)
           }}>
             三次元
           </Menu.Item>
-          <Menu.Item key='2' icon={<AppstoreOutlined />} onClick={()=>{
+          <Menu.Item key='2' icon={<SmileOutlined />} onClick={()=>{
             this.onChange("anime", true)
             this.onChange('scale', 4)
           }}>
@@ -179,7 +199,7 @@ class Sliders extends React.Component{
           </Menu.Item>
         </Menu>
 
-      <h3>设置</h3>
+      {/* <h3>设置</h3> */}
       <Row>
         <Col offset={1}>
           {this.tips()}
@@ -236,8 +256,9 @@ class Uploadpage extends React.Component{
     return(
       <>
         <Row className='row'>
-            <Col flex={1}><Sliders onChange={this.onChange.bind(this)} state={this.state}/></Col>
-            <Col flex={1}><SliderUpload state={this.state}/></Col>
+            <Col flex={5} ><Sliders onChange={this.onChange.bind(this)} state={this.state}/></Col>
+            <Col flex={5} offset={1}><SliderUpload state={this.state}/></Col>
+            <Col flex={1} ></Col>
         </Row>
           {/* <hr/> */}
       {/* </div> */}

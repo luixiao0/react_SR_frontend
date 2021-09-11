@@ -25,7 +25,7 @@
 .cards {
   width: 100%;
   position: relative;
-  margin-bottom: 2%;
+  margin-bottom: 3%;
   border-radius: 3px;
   box-shadow: 0 2px 2px rgba(0,90,250,0.05),
     0 4px 4px rgba(0,90,250,0.05),
@@ -43,7 +43,7 @@
     .container {
         width: 100%;
         margin: 20px auto;
-        columns: 4;
+        columns: 3;
         column-gap: 30px;
       }      
 }
