@@ -187,7 +187,7 @@ class Tasks extends React.Component{
     return (
       <>
       <Tooltip title="刷新状态"><figure className={this.state.loaded?"circle active": "circle inactive"}/></Tooltip>
-      {/* <div> */}
+      <div className="container">
       {this.state.Tasks.map(task=>{
         // console.log(task)
         return <Taskcard 
@@ -198,7 +198,7 @@ class Tasks extends React.Component{
           taskstate={task.s} 
           params={task.p}/>
       })}
-      {/* </div> */}
+      </div>
       </>
     )
   }

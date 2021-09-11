@@ -15,6 +15,10 @@
   background: #141414;
 }
 
+.content{
+  min-height: 100vh;
+}
+
 
 .trigger {
   padding: 0 24px;

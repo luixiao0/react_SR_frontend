@@ -27,11 +27,11 @@ class SliderUpload extends React.Component{
     const fileList = this.state.fileList
     const SRvars = this.props.state
     global.CurrentUser.newTask(fileList, SRvars, ()=>{this.setState({uploading: false})})
-    setTimeout(()=>{
-      this.setState({
-        uploading: false,
-      });
-    },1000)
+    // setTimeout(()=>{
+    //   this.setState({
+    //     uploading: false,
+    //   });
+    // },1000)
 
   };
     render() {

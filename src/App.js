@@ -5,6 +5,7 @@ import {Route, Switch} from 'react-router-dom'
 import Tasks from './pages/Tasks.js'
 import LoginMain from './pages/login'
 import './App.css'
+import './pages/minh.css'
 import Userstate from './utils/moves'
 import FirstPage from './pages/FirstPage'
 import Uploadpage from './pages/upload'
@@ -56,7 +57,7 @@ class App extends React.Component {
       </Sider>
   
       
-      <Layout className='app'>
+      <Layout className='content'>
         <Header className="site-layout-background" style={{ padding: 0 }}>
           {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
             className: 'trigger',
@@ -69,11 +70,11 @@ class App extends React.Component {
         
         
         <Switch>
-          <Route exact path='/'><FirstPage className='content'/></Route>
+          <Route exact path='/'><FirstPage/></Route>
           {/* <Route exact path='/tasks'><DoubleRowTask className='content'/></Route> */}
           <Route exact path='/tasks'><Tasks name='tasks'/></Route>
           
-          <Route exact path='/upload'><Uploadpage className='content'/></Route>
+          <Route exact path='/upload'><Uploadpage/></Route>
           {/* <Route exact path='/logout'><FirstPage className='content' logout/></Route> */}
           
           {/* <Route exact path='/me' component={global.me}/>
