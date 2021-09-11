@@ -1,25 +1,25 @@
 import React from 'react'
 
-class Image extends React.Component{
-  constructor(props){
+class Image extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
-      img:"",
+      img: "",
     }
   }
-  setter = (file) =>{
+  setter = (file) => {
     this.setState({
-      img:file,
+      img: file,
     })
   }
-  componentDidMount(){
-    if(!this.state.img){
+  componentDidMount() {
+    if (!this.state.img) {
       global.CurrentUser.get_preview(this.props.id, this.setter)
     }
   }
-  render(){
-    return(
-      <img className="images" src={this.state.img}  alt="" />
+  render() {
+    return (
+      <img className="images" src={this.state.img} alt="" />
     )
   }
 }
