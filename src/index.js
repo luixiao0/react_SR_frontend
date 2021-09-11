@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import LoginMain from './pages/login'
-import {BrowserRouter as Router} from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import App from './App'
 
 ReactDOM.render(
   <>
-    <LoginMain/>
+    <LoginMain />
     <Router>
-      <App className='app'/>
+      <App className='app' />
     </Router>,
   </>,
   document.getElementById('root')

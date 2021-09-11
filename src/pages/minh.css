@@ -1,15 +1,19 @@
-.content{
-    min-height: 100vh !important;
+.content {
+    min-height: 100vh!important
 }
-.slider{
-    min-width: 350px;
+
+.slider {
+    min-width: 350px
 }
-.align-right{
-    float: right;
+
+.align-right {
+    float: right
 }
-.align-center{
-    text-align: center;
+
+.align-center {
+    text-align: center
 }
-.tips{
-    margin: 1em 0;
+
+.tips {
+    margin: 1em 0
 }

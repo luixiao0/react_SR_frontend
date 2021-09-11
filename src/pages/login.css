@@ -1,23 +1,22 @@
-.logger_div{
+.logger_div {
     position: absolute;
     width: 50%;
     min-width: 400px;
     left: 50%;
-    top:50%;
+    top: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     z-index: 9999;
-    display:block;
+    display: block;
 }
 
-
-.buttons{
+.buttons {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
 }
 
-.buttons Button{
+.buttons Button {
     width: 40%;
     min-width: 80px;
     margin-top: 10px;
@@ -26,10 +25,10 @@
 }
 
 .button {
-    padding:auto;
+    padding: auto;
 }
 
-.bg{
+.bg {
     background-color: rgba(0, 0, 0, 0.801);
     width: 100%;
     height: 100%;
@@ -47,6 +46,7 @@
         visibility: hidden;
     }
 }
+
 @-webkit-keyframes hide {
     from {
         opacity: 1;
@@ -57,7 +57,7 @@
     }
 }
 
-.hide{
+.hide {
     animation: hide 500ms 1;
     animation-fill-mode: forwards;
 }
