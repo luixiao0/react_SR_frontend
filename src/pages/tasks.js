@@ -5,10 +5,11 @@ import './Tasks.css'
 // import {CompressOutlined, PictureOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 // import { DownloadOutlined} from '@ant-design/icons'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Card, Avatar } from 'antd';
-import { Button, Tooltip } from 'antd';
+import { Card, Empty } from 'antd';
+import { Button, Tooltip,Spin } from 'antd';
 import LazyLoad from 'react-lazyload';
-import { DownloadOutlined } from '@ant-design/icons';
+import { DownloadOutlined,LoadingOutlined } from '@ant-design/icons';
+
 import { Tag, Divider } from 'antd';
 const { Meta } = Card;
 
@@ -164,7 +165,6 @@ class Tasks extends React.Component{
   }
   handleClick = () => {
     this.setState({loaded: false})
-
     if(this.state.curpage === undefined){
       this.setState({curpage: 1})
     }
@@ -184,21 +184,25 @@ class Tasks extends React.Component{
   }
 
   render(){
+    console.log(this.state.Tasks)
     return (
       <>
       <Tooltip title="刷新状态"><figure className={this.state.loaded?"circle active": "circle inactive"}/></Tooltip>
-      <div className="container">
-      {this.state.Tasks.map(task=>{
-        // console.log(task)
-        return <Taskcard 
-          refresh={this.handleClick} 
-          key={task.id} 
-          id={task.id} 
-          title={task.date} 
-          taskstate={task.s} 
-          params={task.p}/>
-      })}
-      </div>
+      {!this.state.Tasks.length?
+        <Empty image={<Spin indicator={<LoadingOutlined style={{fontSize:24}} spin/>} />} />:
+        <div className="container">
+          {this.state.Tasks.map(task=>{
+            // console.log(task)
+            return <Taskcard 
+              refresh={this.handleClick} 
+              key={task.id} 
+              id={task.id} 
+              title={task.date} 
+              taskstate={task.s} 
+              params={task.p}/>
+          })}
+        </div>
+      }
       </>
     )
   }
