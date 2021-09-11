@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { Upload, Button } from 'antd';
 import { InboxOutlined,WarningOutlined,UploadOutlined,SmileOutlined } from '@ant-design/icons';
 import './minh.css'
-import { Slider, InputNumber, Row, Col,Menu } from 'antd';
+import { Slider, Row, Col,Menu } from 'antd';
 import Tasks from './Tasks.js'
 import { AppstoreOutlined } from '@ant-design/icons';
 
@@ -15,8 +15,7 @@ class SliderUpload extends React.Component{
     super(props)
     this.state = {
       fileList: [],
-      uploading: false,
-      show:false
+      uploading: false
     };
   }
   handleUpload = () => {
@@ -133,7 +132,8 @@ class CusSlider extends React.Component{
                 step={this.props.step}
                 />
             </Col>
-            <Col flex={1}>
+            <Col flex={1}/>
+            {/* <Col flex={1}>
                 <InputNumber
                 min={this.props.min}
                 max={this.props.max}
@@ -142,7 +142,7 @@ class CusSlider extends React.Component{
                 onChange={this.onFieldChange}
                 value={this.props.inputValue}
                 />
-            </Col>
+            </Col> */}
         </Row>
     )
     }
@@ -181,18 +181,18 @@ class Sliders extends React.Component{
     return(
       <div className="slider">
         <Menu selectedKeys={[this.props.state.anime?'2':'3']} mode="horizontal">
+          <Menu.Item key='2' icon={<SmileOutlined />} onClick={()=>{
+            this.onChange("anime", true)
+            this.onChange('scale', 4)
+          }}>
+            二次元
+          </Menu.Item>
           <Menu.Item key='3' 
             disabled icon={<AppstoreOutlined />} onClick={()=>{
             this.onChange("anime", false)
             this.onChange('scale', 2)
           }}>
             三次元
-          </Menu.Item>
-          <Menu.Item key='2' icon={<SmileOutlined />} onClick={()=>{
-            this.onChange("anime", true)
-            this.onChange('scale', 4)
-          }}>
-            二次元
           </Menu.Item>
           <Menu.Item key='1' disabled>
             coming soon...
@@ -260,9 +260,8 @@ class Uploadpage extends React.Component{
             <Col flex={5} offset={1}><SliderUpload state={this.state}/></Col>
             <Col flex={1} ></Col>
         </Row>
-          {/* <hr/> */}
-      {/* </div> */}
       <div>
+        <hr/>
         <Tasks name='tasks'/>
       </div>
       </>

@@ -159,35 +159,27 @@ export default class Userstate {
       return response.blob();
     }).then((myBlob) => {
       let objectURL = URL.createObjectURL(myBlob);
-      // console.log(objectURL)
       setter(objectURL);
     });
   }
 
 
-  newTask = (tasks, SRvar, s) => {
+  newTask = (task, SRvar, s) => {
     const newTaskspell = this.backend + "/me/newtask/?args=" + JSON.stringify(SRvar);
     let formData = new FormData()
-    while (tasks.length){
-      formData.set("files", tasks.pop()); 
-      fetch(newTaskspell,{
-        method:"POST",
-        headers:{
-          "accept": "application/json",
-          "Authorization": this.tokenHeader(),
-        //   "Content-Type": "multipart/form-data"
-        },
-        body:formData
-        })
-        .then(response => response.json())
-        .catch(error => {
-          console.error(error)
-      }).finally(()=>{
-        if(tasks.length === 1){
-          s()
-        }
+    formData.set("files", task); 
+    fetch(newTaskspell,{
+      method:"POST",
+      headers:{
+        "accept": "application/json",
+        "Authorization": this.tokenHeader(),
+      //   "Content-Type": "multipart/form-data"
+      },
+      body:formData
+    }).then(response => response.json()
+      ).catch(error => {
+        console.error(error)
       })
-    }
   }
 
   logout = () => {
