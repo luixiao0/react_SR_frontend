@@ -1,164 +1,121 @@
-import React from 'react';
-import './minh.css'
-import { Slider, Row, Col, Menu } from 'antd';
-import Tasks from './Tasks.js'
-import Uploader from '../utils/Uploader.js';
-import { AppstoreOutlined, SmileOutlined } from '@ant-design/icons';
+import { useState } from 'react'
+import { Tab } from '@headlessui/react'
+import Slider from '../utils/Slider'
 
-
-
-class CusSlider extends React.Component {
-  onFieldChange = value => {
-    if (isNaN(value)) {
-      return;
-    }
-    const fieldName = this.props.name;
-    const fieldValue = value;
-    this.props.onChange(fieldName, fieldValue);
-  }
-
-  render() {
-    if (this.props.disabled) {
-      return (
-        <>
-        </>
-      )
-    }
-    return (
-      <Row>
-        <Col offset={1} span={6}>
-          <p>{this.props.name}</p>
-        </Col>
-        <Col offset={0} flex={6}>
-          <Slider
-            min={this.props.min}
-            max={this.props.max}
-            onChange={this.onFieldChange}
-            value={typeof this.props.inputValue === 'number' ? this.props.inputValue : this.props.min}
-            step={this.props.step}
-          />
-        </Col>
-        <Col flex={1} />
-      </Row>
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+function params(worker) {
+  let ret = []
+  let idx = 0
+  for(let w in worker.params){
+    let p = worker.params[w]
+    ret.push(
+      <li
+        key={idx}
+        className="relative p-3 rounded-md hover:bg-coolGray-100"
+      >
+        {/* <h3 className="text-sm font-medium leading-5">
+          {w}
+        </h3> */}
+        <Slider min={p.min} max={p.max} de={p.def} step={p.step} name={w} hook={(value)=>{}}/>
+      </li>
     )
+    idx += 1
   }
+
+  return(
+    ret
+  //   <ul className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
+  //     <li>{post.date}</li>
+  //     <li>&middot;</li>
+  //     <li>{post.commentCount} comments</li>
+  //     <li>&middot;</li>
+  //     <li>{post.shareCount} shares</li>
+  //   </ul>
+
+  //   <a
+  //     href="#"
+  //     className={classNames(
+  //       'absolute inset-0 rounded-md',
+  //       'focus:z-10 focus:outline-none focus:ring-2 ring-blue-400'
+  //     )}
+  //   />
+  // </li>
+  )
+}
+
+export default function Example() {
+
+  let [categories] = useState({
+    RealESRGan: {
+      name: "RealESRGan",
+      disabled: false,
+      params: {
+        sf: { min: 2, max: 4, def: 4, step: 1 }
+      },
+    },
+
+    USRGan: {
+      name: "USRGan",
+      disabled: false,
+      params: {
+        sf: { min: 2, max: 4, def: 2, step: 1 },
+        noise: { min: 0, max: 16, def: 2, step: 0.1 },
+        kw: { min: 0, max: 16, def: 0, step: 0.1 },
+      }
+    },
+
+    coming_soon: {
+      name: "coming_soon",
+      disabled: true,
+      params: {
+        sf: { min: 2, max: 4, def: 4, step: 1 }
+      },
+    }
+  }
+  )
+  return (
+    <div className="w-full max-w-md px-2 py-16 sm:px-0">
+      <Tab.Group>
+        <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+          {Object.keys(categories).map((category) => {
+            return (
+              <Tab
+                disabled={categories[category].disabled}
+                key={category}
+                className={({ selected }) =>
+                  classNames(
+                    'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg',
+                    'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+                    selected
+                      ? 'bg-white shadow'
+                      : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                  )
+                }
+              >
+                {category}
+              </Tab>
+            )
+          })
+          }
+        </Tab.List>
+        <Tab.Panels className="mt-2">
+          {Object.values(categories).map((posts) => (
+            <Tab.Panel
+              // key={idx}
+              className={classNames(
+                'bg-white rounded-xl p-3',
+                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+              )}
+            >
+              {params(posts)}
+            </Tab.Panel>
+          ))}
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
+  )
 }
 
 
-
-class Sliders extends React.Component {
-  onChange(name, value) {
-    this.props.onChange(name, value);
-  };
-
-  tips = () => {
-    if (this.props.state.anime) {
-      return (
-        <div className="tips">
-          <div>scale:放大倍率,默认4倍</div>
-        </div>
-      )
-    }
-    else {
-      return (
-        <div className="tips">
-          <div>scale:放大倍率,默认2倍</div>
-          <div>noiselevel:主观噪声,噪点越多则越高(处理后图像更平滑)</div>
-          <div>kernelwidth:模糊核,默认0,越高的值会输出更锐利的边缘</div>
-        </div>
-      )
-    }
-  }
-
-  render() {
-    return (
-      <div className="slider">
-        <Menu selectedKeys={[this.props.state.anime ? '2' : '3']} mode="horizontal">
-          <Menu.Item key='2' icon={<SmileOutlined />} onClick={() => {
-            this.onChange("anime", true)
-            this.onChange('scale', 4)
-          }}>
-            二次元
-          </Menu.Item>
-          <Menu.Item key='3'
-            disabled icon={<AppstoreOutlined />} onClick={() => {
-              this.onChange("anime", false)
-              this.onChange('scale', 2)
-            }}>
-            三次元
-          </Menu.Item>
-          <Menu.Item key='1' disabled>
-            coming soon...
-          </Menu.Item>
-        </Menu>
-
-        {/* <h3>设置</h3> */}
-        <Row>
-          <Col offset={1}>
-            {this.tips()}
-          </Col>
-        </Row>
-
-        <CusSlider
-          min={2} max={4} step={1}
-          name='scale'
-          inputValue={this.props.state.scale}
-          onChange={this.onChange.bind(this)}
-        />
-        <CusSlider
-          min={0} max={16} step={0.1}
-          name='noiselevel'
-          disabled={this.props.state.anime}
-          inputValue={this.props.state.noiselevel}
-          onChange={this.onChange.bind(this)}
-        />
-        <CusSlider
-          min={0} max={2} step={0.1}
-          name='kernel_width'
-          disabled={this.props.state.anime}
-          inputValue={this.props.state.kernel_width}
-          onChange={this.onChange.bind(this)}
-        />
-      </div>
-    )
-  }
-}
-
-
-class Uploadpage extends React.Component {
-  state = {
-    scale: 4,
-    noiselevel: 3,
-    kernel_width: 0,
-    anime: true
-  };
-
-  onChange(name, value) {
-    this.setState({
-      [name]: value,
-    });
-    // console.log(this.state)
-  }
-
-  componentDidMount() {
-    setTimeout(global.CurrentUser.get_tasks, 1000);
-  }
-
-  render() {
-    return (
-      <>
-        <Row className='row'>
-          <Col flex={5} ><Sliders onChange={this.onChange.bind(this)} state={this.state} /></Col>
-          <Col flex={5} offset={1}><Uploader state={this.state} /></Col>
-          <Col flex={1} ></Col>
-        </Row>
-        <div>
-          <hr />
-          <Tasks name='tasks' />
-        </div>
-      </>
-    )
-  }
-}
-
-export default Uploadpage

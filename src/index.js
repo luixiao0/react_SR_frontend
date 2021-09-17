@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import LoginMain from './pages/login'
+// import LoginMain from './pages/login'
+import './index.css'
 import { BrowserRouter as Router } from 'react-router-dom'
 import App from './App'
+import Userstate from './utils/moves'
+global.CurrentUser = new Userstate()
 
 ReactDOM.render(
-  <>
-    <LoginMain />
-    <Router>
-      <App className='app' />
-    </Router>,
-  </>,
+  <Router>
+    {/* <LoginMain /> */}
+    <App className='app' />
+  </Router>,
   document.getElementById('root')
 );
 

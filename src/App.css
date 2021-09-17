@@ -4,40 +4,58 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-.site-layout-sub-header-background {
-  background: #fff;
+.header {
+  background-color: #fafaff;
+  height: 3em;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  display: flex;
+  box-shadow: 0 4px 8px 0 #7a7d7d79, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
 }
 
-.site-layout-background {
-  background: #fff;
+body {
+  background-color: #30343f;;
+  margin: 0;
 }
 
-[data-theme="dark"] .site-layout-sub-header-background {
-  background: #141414;
+h1 {
+  font-size: 1em;
+  text-align: center;
+  font-family: "Arial", sans-serif;
 }
 
-.content {
-  min-height: 100vh;
+.footer{
+  min-height: 100px;
+  color: #fafaff;
+  margin: 0.5em;
 }
 
-.trigger {
-  padding: 0 24px;
-  font-size: 18px;
-  line-height: 64px;
-  cursor: pointer;
-  transition: color 0.3s;
+.content{
+  display: flex;
+  margin: 0.5em;
+  color: #fafaff;
 }
 
-.trigger:hover {
-  color: #1890ff;
+.sliders{
+  margin-top: 2em;
 }
 
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
+.loading{
+  width: 2em;
+  height: 2em;
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out; 
 }
 
-.site-layout .site-layout-background {
-  background: #fff;
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }
