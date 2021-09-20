@@ -88,7 +88,7 @@ const Slider = ({ min, max, de, step, hook, name, thin }) => {
         // console.log('md')
         handleSlideClick(width)
       }}
-      
+
       onMouseUp={(e) => {
         setMouse(false)
         // console.log('mup')

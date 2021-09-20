@@ -13,9 +13,11 @@
         background-color: rgb(219, 234, 254);
     }
 }
+
 .parent {
     position: relative;
 }
+
 .child1 {
     position: absolute;
     width: 100%;
@@ -24,15 +26,17 @@
     left: 0;
     opacity: 0.7;
     /* background: red; */
-    z-index:10;
+    z-index: 10;
 }
 
-.anime{
+.anime {
     background-color: #F6CACA;
 }
-.real{
+
+.real {
     background-color: #DAFFEF;
 }
-.zoom{
+
+.zoom {
     background-color: #FCFFFD;
 }
