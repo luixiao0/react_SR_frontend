@@ -1,20 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import User from './moves'
-const dest = "http://88.jsjs.cf:8000"
-
-global.User = new User(dest)
-// if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-//   document.documentElement.classList.add('dark')
-// } else {
-//   document.documentElement.classList.remove('dark')
-// }
+// import LoginMain from './pages/login'
+import './index.css'
+import { BrowserRouter as Router } from 'react-router-dom'
+import App from './App'
+import Userstate from './utils/moves'
+global.CurrentUser = new Userstate()
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    {/* <LoginMain /> */}
+    <App className='app' />
+  </Router>,
   document.getElementById('root')
 );
+
