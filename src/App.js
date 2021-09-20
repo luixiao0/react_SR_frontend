@@ -10,10 +10,8 @@ global.User = new User(host)
 
 
 function App() {
-  const [state, setState] = useState({
-    showlogin: false,
-    dark: false
-  })
+  const [login, setLogin] = useState(false)
+  const [dark, setDark] = useState(false)
   const [progress, setProgress] = useState(0)
   const [param, setParam] = useState({ anime: true, sf: 4 })
   const progressref = useRef(null)
@@ -62,18 +60,18 @@ function App() {
   }
 
   const onDisplaymodeChange = () => {
-    setState({ dark: !state.dark })
+    setDark(!dark)
   }
 
   return (
-    <div className={`w-full bg-white dark:bg-gray-900 md:h-screen ${state.dark ? 'dark' : 'light'}`}>
+    <div className={`w-full ${dark ? 'dark text-white' : 'white text-black'}`}>
       <header className='stick top-0 z-30  bg-white-900 dark:bg-gray-900 backdrop-filter backdrop-blur firefox:bg-opacity-90'>
         <div className='flex items-center  justify-between max-w-8xl xl:px-8 border-b border-white-800'>
           <h1 className=' px-4 py-2 lg:px-8 sm:px-6 xl:px-0 '>
             <p className="subpixel-antialiased">一个在线超分辨率工具</p>
           </h1>
           <button className="rounded-xl px-2 bg-white dark:bg-gray-700" onClick={onDisplaymodeChange}>
-            {state.dark ? "dark" : "light"} </button>
+            {dark ? "dark" : "white"} </button>
         </div>
 
 
@@ -101,12 +99,12 @@ function App() {
       <footer>
         <button className="rounded-xl px-2 bg-white dark:bg-gray-900" onClick={
           () => {
-            setState({ showlogin: !state.showlogin })
+            setLogin(!login)
             loginref.current.value = ""
           }}> share </button>
-        <input autoFocus ref={loginref} className={state.showlogin ? "" : "hidden"} onChange={(e) => {
+        <input autoFocus ref={loginref} className={login ? "" : "hidden"} onChange={(e) => {
           global.User.onChange(e, () => {
-            setState({ showlogin: false })
+            setLogin(false)
           })
         }} />
         {global.User.uid}

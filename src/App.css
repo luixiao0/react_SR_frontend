@@ -3,6 +3,18 @@
   justify-content: center;
 }
 
+
+.dark {
+  background-image: linear-gradient( 110.3deg,  rgb(19, 24, 27) 4.3%, rgb(9, 10, 15) 96.7% );
+  min-height: 100vh;
+}
+
+.white {
+  background-color: #ebf6ff;
+  background-image: linear-gradient(135deg, #ebf6ff 0%, #c6cae5 100%);
+  min-height: 100vh;
+}
+
 .stick {
   position: -webkit-sticky;
   position: sticky;
@@ -12,3 +24,7 @@
 .progressbar {
   background-color: #be2a57;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
