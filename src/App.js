@@ -10,7 +10,7 @@ class App extends React.Component {
     this.state = {
       params: { anime: true, sf: 4 },
       showlogin: false,
-      progress: 0
+      progress: 0,
     }
     this.progressref = React.createRef()
     this.loginref = React.createRef()
@@ -74,6 +74,7 @@ class App extends React.Component {
       localStorage.theme = 'dark';
     }
   }
+
   render() {
     return (
       <div className="">
@@ -81,10 +82,11 @@ class App extends React.Component {
           <div className='max-w-8xl xl:px-8'>
             <h1 className='flex items-center justify-between px-4 py-2 border-b lg:px-8 sm:px-6 xl:px-0 border-white-800'>
               <p className="subpixel-antialiased">一个在线超分辨率工具</p>
+              <button className="rounded-xl px-2 bg-white dark:bg-gray-700" onClick={this.onDisplaymodeChange}> dark </button>
             </h1>
           </div>
 
-          {/* <button className="rounded-xl px-2 bg-white dark:bg-gray-300" onClick={this.onDisplaymodeChange}> dark </button> */}
+          
         </header>
 
         <div className="lg:flex justify-center">

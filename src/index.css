@@ -6,10 +6,6 @@
   background-image: linear-gradient(135deg, #ebf6ff 0%, #c6cae5 100%);
   min-height: 100vh;
 } */
-black{
-  background-color: gray;
-  min-height: 100vh;
-}
 /* 
 body.dragging::before {
   content: "Drop the file(s) anywhere on this page";

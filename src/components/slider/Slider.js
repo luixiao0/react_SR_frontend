@@ -7,7 +7,7 @@ function orientationChanged() {
   const timeout = 120;
   return new window.Promise(function (resolve) {
     const go = (i, height0) => {
-      window.innerHeight != height0 || i >= timeout ?
+      window.innerHeight !== height0 || i >= timeout ?
         resolve() :
         window.requestAnimationFrame(() => go(i + 1, height0));
     };
