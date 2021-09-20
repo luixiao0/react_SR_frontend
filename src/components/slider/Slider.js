@@ -3,17 +3,17 @@ import PropTypes from "prop-types";
 import "./Slider.css";
 
 // Wait until innerheight changes, for max 120 frames
-function orientationChanged() {
-  const timeout = 120;
-  return new window.Promise(function (resolve) {
-    const go = (i, height0) => {
-      window.innerHeight !== height0 || i >= timeout ?
-        resolve() :
-        window.requestAnimationFrame(() => go(i + 1, height0));
-    };
-    go(0, window.innerHeight);
-  });
-}
+// function orientationChanged() {
+//   const timeout = 120;
+//   return new window.Promise(function (resolve) {
+//     const go = (i, height0) => {
+//       window.innerHeight !== height0 || i >= timeout ?
+//         resolve() :
+//         window.requestAnimationFrame(() => go(i + 1, height0));
+//     };
+//     go(0, window.innerHeight);
+//   });
+// }
 
 const Slider = ({ min, max, de, step, hook, name, thin }) => {
   const [cur, setCurrent] = useState(de);
@@ -65,16 +65,13 @@ const Slider = ({ min, max, de, step, hook, name, thin }) => {
         range.current.style.width = `${Math.max(maxPercent * slide.current.clientWidth + aux, 0)}px`;
       }
     }
+    hook(name, Number(cur))
   }
 
   useEffect(update, [cur, getPercent, thin]);
 
   window.addEventListener('resize', update);
 
-  useEffect(() => {
-    hook(name, Number(cur));
-  }, [cur, hook, name])
-  // }, [cur, hook]);
 
   const handleSlideClick = (width) => {
     let percent = (Math.round(width)) / slide.current.clientWidth

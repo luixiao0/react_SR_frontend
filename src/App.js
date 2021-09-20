@@ -1,35 +1,36 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import Upload from './Upload';
 import Dragger from './components/Dragger/Dragger';
 import TaskList from './components/TaskList/TaskList';
 import User from './moves'
 
-import {host} from './const.js'
+import { host } from './const.js'
 global.User = new User(host)
 
 
 function App() {
   const [state, setState] = useState({
     showlogin: false,
-    progress: 0,
     dark: false
   })
-
+  const [progress, setProgress] = useState(0)
   const [param, setParam] = useState({ anime: true, sf: 4 })
   const progressref = useRef(null)
   const loginref = useRef(null)
 
-  const progressupdate = (p) => {
-    setState({ progress: p })
-    progressref.current.style.width = `${state.progress}%`
-  }
+
+  // useEffect(()=>{
+  //   progressref.current.style.width = `${progress}%`
+  // },[progress])
 
   const progresssetter = (p) => {
     console.log(p, "% uploaded")
-    progressupdate(p)
-    if (state.progress >= 95) {
-      setTimeout(() => { progressupdate(0) }, 500)
+    setProgress(p)
+    if (progress >= 95) {
+      setTimeout(() => {
+        setProgress(0)
+      }, 500)
     }
   }
 
@@ -45,22 +46,19 @@ function App() {
   }
 
   const onTabChange = (index) => {
-    let params = JSON.parse(JSON.stringify(param))
     if (index) {
-      params.anime = false
-      setParam(params)
+      param.anime = false
     }
     else {
-      params.anime = true
-      setParam(params)
+      param.anime = true
     }
+    setParam(param)
   }
 
   const onParamChange = (name, value) => {
-    let params = JSON.parse(JSON.stringify(param))
-    params[name] = value
-    // console.log(params)
-      setParam(params)
+    param[name] = value
+    // console.log(name, value, param)
+    setParam(param)
   }
 
   const onDisplaymodeChange = () => {
@@ -75,7 +73,7 @@ function App() {
             <p className="subpixel-antialiased">一个在线超分辨率工具</p>
           </h1>
           <button className="rounded-xl px-2 bg-white dark:bg-gray-700" onClick={onDisplaymodeChange}>
-             {state.dark? "dark":"light"} </button>
+            {state.dark ? "dark" : "light"} </button>
         </div>
 
 
