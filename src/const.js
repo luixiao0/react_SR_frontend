@@ -1,0 +1,1 @@
+export const host = "http://88.jsjs.cf:8000"

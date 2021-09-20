@@ -10,14 +10,13 @@ export default class Userstate {
         "Content-type": "application/json",
       },
     });
-
     if (this.uid === null) {
       this.reg()
     }
     else {
       this.get_token()
     }
-    setInterval(this.get_token, 1000 * 60 * 5)
+    setInterval(this.get_token, 1000 * 60 * 10)
   }
 
   reg = () => {
