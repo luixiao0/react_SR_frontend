@@ -11,6 +11,7 @@ class App extends React.Component {
       params: { anime: true, sf: 4 },
       showlogin: false,
       progress: 0,
+      dark: false
     }
     this.progressref = React.createRef()
     this.loginref = React.createRef()
@@ -30,7 +31,7 @@ class App extends React.Component {
       }, 500)
     }
   }
-  
+
   onFile = (file, progresssetter) => {
     // console.log("file!")
     for (let i of file) {
@@ -64,29 +65,32 @@ class App extends React.Component {
 
 
   onDisplaymodeChange = () => {
-    let htmlClasses = document.querySelector('html').classList;
-    if (localStorage.theme === 'dark') {
-      htmlClasses.remove('dark');
-      localStorage.removeItem('theme')
-    }
-    else {
-      htmlClasses.add('dark');
-      localStorage.theme = 'dark';
-    }
+    // let htmlClasses = document.querySelector('html').classList;
+    // if (localStorage.theme === 'dark') {
+    //   htmlClasses.remove('dark');
+    //   localStorage.removeItem('theme')
+    // }
+    // else {
+    //   htmlClasses.add('dark');
+    //   localStorage.theme = 'dark';
+    // }
+
+    // console.log(localStorage.getItem('theme'))
+    this.setState({dark:!this.state.dark})
   }
 
   render() {
     return (
-      <div className="">
+      <div className={this.state.dark?"dark":"light"}>
         <header className='stick top-0 z-30  bg-white-900 dark:bg-gray-900 backdrop-filter backdrop-blur firefox:bg-opacity-90'>
-          <div className='max-w-8xl xl:px-8'>
-            <h1 className='flex items-center justify-between px-4 py-2 border-b lg:px-8 sm:px-6 xl:px-0 border-white-800'>
+          <div className='flex items-center  justify-between max-w-8xl xl:px-8 border-b border-white-800'>
+            <h1 className=' px-4 py-2 lg:px-8 sm:px-6 xl:px-0 '>
               <p className="subpixel-antialiased">一个在线超分辨率工具</p>
-              <button className="rounded-xl px-2 bg-white dark:bg-gray-700" onClick={this.onDisplaymodeChange}> dark </button>
             </h1>
+            <button className="rounded-xl px-2 bg-white dark:bg-gray-700" onClick={this.onDisplaymodeChange}> dark </button>
           </div>
 
-          
+
         </header>
 
         <div className="lg:flex justify-center">
