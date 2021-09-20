@@ -1,61 +1,14 @@
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.header {
-  background-color: #fafaff;
-  height: 3em;
+.App {
+  display: flex;
   justify-content: center;
-  text-align: center;
-  margin: auto;
-  display: flex;
-  box-shadow: 0 4px 8px 0 #7a7d7d79, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  text-align: center;
 }
 
-body {
-  background-color: #30343f;;
-  margin: 0;
+.stick {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
 
-h1 {
-  font-size: 1em;
-  text-align: center;
-  font-family: "Arial", sans-serif;
-}
-
-.footer{
-  min-height: 100px;
-  color: #fafaff;
-  margin: 0.5em;
-}
-
-.content{
-  display: flex;
-  margin: 0.5em;
-  color: #fafaff;
-}
-
-.sliders{
-  margin-top: 2em;
-}
-
-.loading{
-  width: 2em;
-  height: 2em;
-  animation-name: spin;
-  animation-duration: 1000ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out; 
-}
-
-@keyframes spin {
-  from {
-      transform:rotate(0deg);
-  }
-  to {
-      transform:rotate(360deg);
-  }
+.progressbar{
+  background-color: #be2a57;
 }

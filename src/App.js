@@ -1,154 +1,127 @@
-import * as React from "react";
-// import './App.css'
-// import './pages/minh.css'
-import Slider from './utils/Slider'
-import Example from './pages/upload'
-
-
-const Header = () => {
-  return (
-    <>
-      <div className="header">
-        <h1>图像处理-目前只有超分功能</h1>
-      </div>
-    </>
-  )
-}
-const Footer = () => {
-  return (
-    <>
-      <div className="footer">
-        <hr />
-        <footer>
-          LUX Attempt 2021.09
-        </footer>
-      </div>
-    </>
-  )
-}
-
-
-class Uploader extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      files: [],
-      uploading: false,
-      progress: 0
-    }
-  }
-
-  onClick = () => {
-    //handle upload
-  }
-
-  images = () => {
-    //list cards
-  }
-
-  progressor = () => {
-    this.setState({
-      progress: this.state.progress + 1,
-      uploading: false
-    })
-  }
-
-  finisher = () => {
-    if (this.state.files.length <= this.state.progress) {
-      this.setState({
-        progress: 0,
-        uploading: false
-      })
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        {/* {this.state.uploading ? <AutorenewIcon /> : <CloudUploadIcon />} */}
-        <div>
-          {this.images()}
-        </div>
-      </div>
-    )
-  }
-}
-
-class Content extends React.Component {
-  constructor(props) {
-    super(props)
-    this.workers = [
-      { name: "RealESRGan", disabled: false },
-      { name: "USRGan", disabled: false },
-      { name: "coming sonn", disabled: true }
-    ]
-    this.params = {
-      "RealESRGan": { sf: { min: 2, max: 4, def: 4, step: 1 } },
-      "USRGan": {
-        sf: { min: 2, max: 4, def: 2, step: 1 },
-        noise: { min: 0, max: 16, def: 2, step: 0.1 },
-        kw: { min: 0, max: 16, def: 0, step: 0.1 },
-      },
-    }
-    this.state = {
-      name: "RealESRGan"
-    }
-  }
-
-  // onClick = (name) => {
-  //   this.setState({ 'name': name })
-  // }
-
-  sliders = (name) => {
-    let params = this.params[name]
-    let final = []
-    for (let p in params) {
-      console.log(p)
-      final.push(
-        <Slider
-          min={params[p].min}
-          max={params[p].max}
-          de={params[p].def}
-          step={params[p].step}
-          name={params[p].name}
-          onChange={(value) => { console.log(value) }}
-          thin
-        />
-      )
-    }
-    return final
-  }
-
-  MyTabs() {
-    return ({}
-    )
-  }
-
-
-  Workerbutton = (onClick, disabled, name) => {
-    return ({}
-      // <button onClick={onClick} disabled={disabled}>{name}</button>
-    )
-  }
-
-  render() {
-    return (
-      this.MyTabs()
-    )
-  }
-}
+import React from 'react';
+import './App.css';
+import Upload from './Upload';
+import Dragger from './components/Dragger/Dragger';
+import TaskList from './components/TaskList/TaskList';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      params: { anime: true, sf: 4 },
+      showlogin: false,
+      progress: 0
+    }
+    this.progressref = React.createRef()
+    this.loginref = React.createRef()
+  }
+
+  progressupdate = (p) => {
+    this.setState({ progress: p })
+    this.progressref.current.style.width = `${this.state.progress}%`
+  }
+
+  progresssetter = (p) => {
+    console.log(p, "% uploaded")
+    this.progressupdate(p)
+    if (this.state.progress >= 95) {
+      setTimeout(() => {
+        this.progressupdate(0)
+      }, 500)
+    }
+  }
+  
+  onFile = (file, progresssetter) => {
+    // console.log("file!")
+    for (let i of file) {
+      console.log(this.state.params, "upload")
+      global.User.newTask(i, this.state.params, (p) => { this.progresssetter(p); progresssetter(p) })
+    }
+  }
+
+  onDL = (takid) => {
+    global.User.DlTask(takid, (p) => { this.progresssetter(p) })
+  }
+
+  onTabChange = (index) => {
+    let params = JSON.parse(JSON.stringify(this.state.params))
+    if (index) {
+      params.anime = false
+      this.setState({ params: params })
+    }
+    else {
+      params.anime = true
+      this.setState({ params: params })
+    }
+  }
+
+  onParamChange = (name, value) => {
+    let params = JSON.parse(JSON.stringify(this.state.params))
+    params[name] = value
+    // console.log(params)
+    this.setState({ params: params })
+  }
+
+
+  onDisplaymodeChange = () => {
+    let htmlClasses = document.querySelector('html').classList;
+    if (localStorage.theme === 'dark') {
+      htmlClasses.remove('dark');
+      localStorage.removeItem('theme')
+    }
+    else {
+      htmlClasses.add('dark');
+      localStorage.theme = 'dark';
+    }
+  }
   render() {
     return (
-      <>
-        <Header />
-        <Example />
-        <Footer />
-      </>
-    )
+      <div className="">
+        <header className='stick top-0 z-30  bg-white-900 dark:bg-gray-900 backdrop-filter backdrop-blur firefox:bg-opacity-90'>
+          <div className='max-w-8xl xl:px-8'>
+            <h1 className='flex items-center justify-between px-4 py-2 border-b lg:px-8 sm:px-6 xl:px-0 border-white-800'>
+              <p className="subpixel-antialiased">一个在线超分辨率工具</p>
+            </h1>
+          </div>
+
+          {/* <button className="rounded-xl px-2 bg-white dark:bg-gray-300" onClick={this.onDisplaymodeChange}> dark </button> */}
+        </header>
+
+        <div className="lg:flex justify-center">
+          {/* <div className="flex justify-center"> */}
+          <div>
+            <Upload onParamChange={this.onParamChange} onTabChange={this.onTabChange} />
+            <Dragger onFile={this.onFile} />
+          </div>
+
+          {/* <div className="lg:w-full xl:w-1/3"> */}
+
+          <div className="md:w-full lg:w-2/3 xl:w-1/3">
+            <TaskList onDL={this.onDL} />
+          </div>
+        </div>
+
+        <div className="sticky bottom-0 w-full h-1 z-20 overflow-x-hidden">
+          <div ref={this.progressref} className="rounded-xl w-0 progressbar h-full duration-500"></div>
+        </div>
+        {/* <button className="rounded-xl bg-white p-2" onClick={() => {
+        }}>debug</button> */}
+        <footer>
+          <button className="rounded-xl px-2 bg-white dark:bg-gray-900" onClick={
+            () => {
+              this.setState({ showlogin: !this.state.showlogin })
+              this.loginref.current.value = ""
+            }}> share </button>
+          <input autoFocus ref={this.loginref} className={this.state.showlogin ? "" : "hidden"} onChange={(e) => {
+            global.User.onChange(e, () => {
+              this.setState({ showlogin: false })
+            })
+          }} />
+          {global.User.uid}
+        </footer>
+      </div>
+    );
   }
 }
-export default App
 
-
+export default App;
