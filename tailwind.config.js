@@ -36,19 +36,19 @@ module.exports = {
     }
   },
   plugins: [
-    function ({ addBase, config }) {
-      addBase({
-        body: {
-          color: config("theme.colors.black"),
-          backgroundColor: config("theme.colors.white")
-        },
-        "@screen dark": {
-          body: {
-            color: config("theme.colors.white"),
-            backgroundColor: config("theme.colors.black")
-          }
-        }
-      });
-    }
+    // function ({ addBase, config }) {
+    //   addBase({
+    //     body: {
+    //       color: config("theme.colors.black"),
+    //       backgroundColor: config("theme.colors.white")
+    //     },
+    //     "@screen dark": {
+    //       body: {
+    //         color: config("theme.colors.white"),
+    //         backgroundColor: config("theme.colors.black")
+    //       }
+    //     }
+    //   });
+    // }
   ],
 }
