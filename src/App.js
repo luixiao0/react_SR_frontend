@@ -61,16 +61,18 @@ function App() {
 
   const onDisplaymodeChange = () => {
     setDark(!dark)
+    dark?document.documentElement.classList.remove('dark'):
+    document.documentElement.classList.add('dark')
   }
 
   return (
-    <div className={`w-full ${dark ? 'dark text-white' : 'white text-black'} duration-100`}>
-      <header className={`stick top-0 z-30 ${dark ? 'bg-gray-900' : 'bg-white-900'} duration-100 backdrop-blur firefox:bg-opacity-90`}>
-        <div className='flex items-center  justify-between max-w-8xl xl:px-8 border-b border-gray-100 dark:border-white-800'>
+    <div className={`w-full ${dark ? 'dark ' : 'white '} text-black dark:text-white duration-100`}>
+      <header className='stick top-0 z-30 dark:bg-gray-900 bg-white-900 duration-100 backdrop-blur firefox:bg-opacity-90'>
+        <div className='flex items-center  justify-between max-w-8xl xl:px-8 border-b border-red-800 dark:border-white'>
           <h1 className=' px-4 py-2 lg:px-8 sm:px-6 xl:px-0 '>
             <p className="subpixel-antialiased">一个在线超分辨率工具</p>
           </h1>
-          <button className={`rounded-xl p-1 mr-4 ${dark ? 'bg-gray-700' : 'bg-white'} duration-100 border-none`} onClick={onDisplaymodeChange}>
+          <button className='rounded-xl p-1 mr-4 bg-white dark:bg-gray-700 duration-100 border-none' onClick={onDisplaymodeChange}>
             {dark ?
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -86,14 +88,14 @@ function App() {
       <div className="lg:flex justify-center">
         {/* <div className="flex justify-center"> */}
         <div>
-          <Upload onParamChange={onParamChange} onTabChange={onTabChange} dark={dark} />
-          <Dragger onFile={onFile} dark={dark} />
+          <Upload onParamChange={onParamChange} onTabChange={onTabChange}/>
+          <Dragger onFile={onFile}/>
         </div>
 
         {/* <div className="lg:w-full xl:w-1/3"> */}
 
         <div className="md:w-full lg:w-2/3 xl:w-1/3">
-          <TaskList onDL={onDL} dark={dark} />
+          <TaskList onDL={onDL} />
         </div>
       </div>
 
@@ -103,7 +105,7 @@ function App() {
       {/* <button className="rounded-xl bg-white p-2" onClick={() => {
       }}>debug</button> */}
       <footer>
-        <button className={`rounded-xl px-2 ${dark ? 'bg-gray-700' : 'bg-white'} duration-100 border-none`} onClick={
+        <button className='rounded-xl px-2 dark:bg-gray-700 bg-white duration-100 border-none' onClick={
           () => {
             setLogin(!login)
             loginref.current.value = ""

@@ -1,6 +1,21 @@
 .proccessing-color {
     animation: change 10s ease-in-out infinite;
 }
+.proccessing-color-dark {
+    animation: change-dark 10s ease-in-out infinite;
+}
+
+@keyframes change-dark {
+    0% {
+        background-color: rgb(18, 27, 37);
+    }
+    50% {
+        background-color: rgb(20, 44, 94);
+    }
+    100% {
+        background-color: rgb(18, 27, 37);
+    }
+}
 
 @keyframes change {
     0% {
@@ -31,6 +46,9 @@
 
 .anime {
     background-color: #F6CACA;
+}
+.anime-dark {
+    background-color: #462d2d;
 }
 
 .real {

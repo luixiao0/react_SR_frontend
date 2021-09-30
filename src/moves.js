@@ -106,7 +106,7 @@ export default class Userstate {
         console.log(res.headers)
         let filename = res.headers["content-disposition"].match(/filename.?=.?s*(.+)/i)[1];
         if (filename) {
-          filename = decodeURIComponent(filename).replace(/\"/g,"")
+          filename = decodeURIComponent(filename).replace(/"/g,"")
         }
         else{
           filename = "finished.png"

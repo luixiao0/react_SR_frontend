@@ -75,24 +75,24 @@ function params(param, id) {
   for (let p in param) {
     switch (p) {
       case "sf":
-        capsule.push(<div className="zoom mr-2 flex shadow-sm rounded-xl bg-gray-200 p-1 bottom-1 right-0 text-xs sm:text-lg xl:text-xl" key={p}>
+        capsule.push(<div className="zoom mr-2 flex shadow-sm rounded-xl bg-gray-200 dark:bg-gray-800 p-1 bottom-1 right-0 text-xs sm:text-lg xl:text-xl h-6 w-6 sm:h-8 sm:w-8" key={p}>
           {param[p]}
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-2 w-2 sm:h-3 sm:w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
           </svg>
         </div>)
         break
       case "anime":
         if (param[p]) {
-          capsule.push(<div key={p} className="anime mr-2 shadow-sm rounded-xl bg-gray-200 p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          capsule.push(<div key={p} className="bg-pink-100 dark:bg-pink-900 mr-2 shadow-sm rounded-xl h-6 w-6 sm:h-8 sm:w-8 p-1 ">
+            <svg xmlns="http://www.w3.org/2000/svg" className="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
           </div>)
         }
         else {
-          capsule.push(<div key={p} className="real mr-2 text-center shadow-sm rounded-xl bg-gray-200 p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          capsule.push(<div key={p} className="real mr-2 text-center shadow-sm rounded-xl bg-gray-200 dark:bg-gray-800 h-4 w-4 sm:h-6 sm:w-6 p-1 m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" className="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
@@ -100,13 +100,13 @@ function params(param, id) {
         }
         break
       default:
-        normal.push(<div className="rounded-xl bg-white px-2 mr-1 z-20" key={p}>{p}:{param[p]}</div>)
+        normal.push(<div className="rounded-xl bg-white px-2 mr-1 z-20 " key={p}>{p}:{param[p]}</div>)
     }
   }
 
   return (
     <>
-      <div className="flex text-center my-1">
+      <div className="flex text-center mt-2 mb-1">
         {capsule.map((value, index) => { return value })}
       </div>
       <div className="flex">
@@ -128,19 +128,19 @@ function Taskcard(props) {
       state = "bg-white dark:bg-gray-900"
       break;
     case 1:
-      state = "bg-green-100"
+      state = "bg-green-100 dark:bg-green-700 "
       break;
     case 3:
       state = "bg-white dark:bg-gray-900"
       break;
     case 2:
-      state = "proccessing-color"
+      state = "proccessing-color dark:proccessing-color-dark"
       break;
     case -1:
-      state = "bg-red-300"
+      state = "bg-red-300 dark:bg-red-900"
       break;
     default:
-      state = "bg-gray-100"//for code 0 and -2
+      state = "bg-gray-100 dark:bg-gray-800"//for code 0 and -2
   }
   let DlTask = () => {
     props.DL(props.id)
@@ -178,7 +178,7 @@ function Taskcard(props) {
 
           <Transition
             show={isShowing}
-            className={`child1 rounded-xl ${props.dark ?'bg-gray-900': 'bg-white' }  flex py-2`}
+            className='child1 rounded-xl dark:bg-gray-900 bg-white flex py-2'
             enter="transform transition duration-[400ms]"
             enterFrom="opacity-0 scale-0"
             enterTo="opacity-100 scale-100"
@@ -217,7 +217,7 @@ function Taskcard(props) {
           >
             {params(props.params, props.id)}
             {/* <div className="text-xs text-right"> */}
-            <div className="absolute md:text-xs lg:text-base xl:text-lg bottom-1 right-0 z-10">
+            <div className="absolute md:text-xs lg:text-base xl:text-lg bottom-2 right-0 z-10">
               {/* <span className="self-end"> */}
               {date}
               {/* </span> */}

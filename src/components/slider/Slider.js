@@ -15,7 +15,7 @@ import "./Slider.css";
 //   });
 // }
 
-const Slider = ({ min, max, de, step, hook, name, thin, dark }) => {
+const Slider = ({ min, max, de, step, hook, name, thin}) => {
   const [cur, setCurrent] = useState(de);
   const [show, toggleShow] = useState(false);
   const [mousedown, setMouse] = useState(false);
@@ -146,7 +146,7 @@ const Slider = ({ min, max, de, step, hook, name, thin, dark }) => {
         <div className="slider__left-value select-none">{min}</div>
         {show ?
           <div>
-            <input className={`slider__right-value rounded-xl ${dark ?'bg-gray-700': 'bg-gray-100' } px-1`}
+            <input className='slider__right-value rounded-xl dark:bg-gray-700 bg-gray-100 px-1'
               type="number"
               autoFocus
               value={cur}
@@ -175,7 +175,6 @@ Slider.propTypes = {
   hook: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   thin: PropTypes.bool,
-  dark: PropTypes.bool,
 };
 
 export default Slider;
