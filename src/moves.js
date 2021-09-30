@@ -80,6 +80,7 @@ export default class Userstate {
     }).catch((e) => console.log(e))
   }
 
+
   DlTask = (taskid, s) => {
     this.http.post("/dload?taskid=" + String(taskid), null, {
       responseType: "blob",
@@ -89,25 +90,33 @@ export default class Userstate {
       },
       onDownloadProgress: (event) => {
         const totalLength = event.lengthComputable ? event.total : event.target.getResponseHeader('content-length') || event.target.getResponseHeader('x-decompressed-content-length');
-        console.log(event)
+        // console.log(event)
         if (totalLength !== null) {
           let progress = Math.round((event.loaded * 99) / totalLength);
           s(progress)
         }
       }
-    }).then(res => { if (res.status === 200) { return res } })
+
+    }).then(res => {
+      if (res.status === 200) { return res }
+    })
       .then(res => {
         let a = document.createElement("a");
         let url = window.URL.createObjectURL(res.data);
-        let filename = res.headers["content-disposition"].match(/filename\s*=\s*"(.+)"/i)[1];
+        console.log(res.headers)
+        let filename = res.headers["content-disposition"].match(/filename.?=.?s*(.+)/i)[1];
         if (filename) {
-          a.href = url;
-          a.download = filename; //给下载下来的文件起个名字
-          a.click();
-          window.URL.revokeObjectURL(url);
+          filename = decodeURIComponent(filename).replace(/\"/g,"")
         }
-        s()
-      })
+        else{
+          filename = "finished.png"
+        }
+        
+        a.href = url;
+        a.download = filename; //给下载下来的文件起个名字
+        a.click();
+        // window.URL.revokeObjectURL(url);
+      }).finally(()=>{s(0)})
   }
 
   get_tasks = (setter) => {
@@ -124,6 +133,7 @@ export default class Userstate {
         console.log("server failed(no task)")
       }
     }).then(res => {
+      console.log('get_task', res)
       // setter(res)
       // let TasksList = []
       // if (!res.detail) {
@@ -187,10 +197,11 @@ export default class Userstate {
             })
           }
         }
-        setter(100)
       })
       .catch(error => {
         console.error(error)
+      }).finally(()=>{
+        setter(-1)
       })
   }
 

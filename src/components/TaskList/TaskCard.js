@@ -178,7 +178,7 @@ function Taskcard(props) {
 
           <Transition
             show={isShowing}
-            className="child1 rounded-xl bg-white dark:bg-gray-900 flex py-2"
+            className={`child1 rounded-xl ${props.dark ?'bg-gray-900': 'bg-white' }  flex py-2`}
             enter="transform transition duration-[400ms]"
             enterFrom="opacity-0 scale-0"
             enterTo="opacity-100 scale-100"

@@ -43,7 +43,7 @@ class ParamSlider extends React.Component {
     for (let w in worker.params) {
       let p = worker.params[w]
       ret.push(
-        <Slider key={w} min={p.min} max={p.max} de={p.def} step={p.step} name={w} hook={this.props.onParamChange} />
+        <Slider key={w} min={p.min} max={p.max} de={p.def} step={p.step} name={w} hook={this.props.onParamChange} dark={this.props.dark}/>
       )
     }
     return ret
@@ -55,16 +55,16 @@ class ParamSlider extends React.Component {
       <div className="w-full px-2 mt-2">
         <Tab.Group
           onChange={this.props.onTabChange}>
-          <Tab.List className="flex p-1 rounded-xl bg-white dark:bg-gray-900 shadow-sm space-x-1 bg-opacity-60 ">
+          <Tab.List className={`flex p-1 rounded-xl ${this.props.dark ?'bg-gray-700': 'bg-white' } duration-100 shadow-sm space-x-1 bg-opacity-60 `}>
             {Object.keys(this.categories).map((category) => {
               return (
                 <Tab
                   disabled={this.categories[category].disabled}
                   key={category}
                   className={({ selected }) => {
-                    let style = 'text-black-700 hover:bg-white dark:hover:bg-gray-800'
+                    let style = `text-black-700 ${this.props.dark ?'hover:bg-gray-800': 'hover:bg-white' }`
                     if (selected) {
-                      style = ' bg-white dark:bg-gray-900 hover:bg-white/[0.90] hover:text-blue-700 shadow-md'
+                      style = `${this.props.dark ?'bg-gray-900': 'bg-white' } hover:bg-white/[0.90] hover:text-blue-700 shadow-md`
                     }
                     if (this.categories[category].disabled) {
                       style = 'opacity-30'
@@ -86,7 +86,7 @@ class ParamSlider extends React.Component {
               <Tab.Panel
                 key={posts.name}
                 className={this.classNames(
-                  'bg-white dark:bg-gray-900 shadow-sm rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                  `${this.props.dark ?'bg-gray-900': 'bg-white' } shadow-sm rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60`
                 )}
               >
                 {this.params(posts)}

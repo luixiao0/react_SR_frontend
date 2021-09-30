@@ -15,7 +15,7 @@ import "./Slider.css";
 //   });
 // }
 
-const Slider = ({ min, max, de, step, hook, name, thin }) => {
+const Slider = ({ min, max, de, step, hook, name, thin, dark }) => {
   const [cur, setCurrent] = useState(de);
   const [show, toggleShow] = useState(false);
   const [mousedown, setMouse] = useState(false);
@@ -68,7 +68,7 @@ const Slider = ({ min, max, de, step, hook, name, thin }) => {
     hook(name, Number(cur))
   }
 
-  useEffect(update, [cur, getPercent, thin]);
+  useEffect(update, [cur, getPercent, thin, hook, name]);
 
   window.addEventListener('resize', update);
 
@@ -146,7 +146,7 @@ const Slider = ({ min, max, de, step, hook, name, thin }) => {
         <div className="slider__left-value select-none">{min}</div>
         {show ?
           <div>
-            <input className="slider__right-value rounded-xl bg-gray-100 dark:bg-gray-700 px-1"
+            <input className={`slider__right-value rounded-xl ${dark ?'bg-gray-700': 'bg-gray-100' } px-1`}
               type="number"
               autoFocus
               value={cur}
@@ -156,7 +156,7 @@ const Slider = ({ min, max, de, step, hook, name, thin }) => {
               onBlur={handleClick}
               onChange={e => inputChange(e)} />
           </div> :
-          <div onClick={handleClick} className="select-none rounded-xl bg-white dark:bg-gray-900 shadow-sm px-1 shadow slider__right-value">{name}:[{(Math.round(cur / step) * step).toFixed(0.1 / step)}]/{max}</div>
+          <div onClick={handleClick} className={`select-none rounded-xl shadow-sm px-1 shadow slider__right-value duration-100`}>{name}:[{(Math.round(cur / step) * step).toFixed(0.1 / step)}]/{max}</div>
         }
 
 
@@ -175,6 +175,7 @@ Slider.propTypes = {
   hook: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   thin: PropTypes.bool,
+  dark: PropTypes.bool,
 };
 
 export default Slider;

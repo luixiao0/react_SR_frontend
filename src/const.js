@@ -1,1 +1,1 @@
-export const host = "http://88.jsjs.cf:8000"
+export const host = "http://88.jsjs.cf:22000"
