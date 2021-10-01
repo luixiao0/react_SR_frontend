@@ -91,7 +91,7 @@ function params(param, id) {
           </div>)
         }
         else {
-          capsule.push(<div key={p} className="real mr-2 text-center shadow-sm rounded-xl bg-gray-200 dark:bg-gray-800 h-4 w-4 sm:h-6 sm:w-6 p-1 m-1">
+          capsule.push(<div key={p} className="bg-blue-100 dark:bg-blue-900 mr-2 text-center shadow-sm rounded-xl h-6 w-6 sm:h-8 sm:w-8 p-1">
             <svg xmlns="http://www.w3.org/2000/svg" className="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -100,7 +100,11 @@ function params(param, id) {
         }
         break
       default:
-        normal.push(<div className="rounded-xl bg-white px-2 mr-1 z-20 " key={p}>{p}:{param[p]}</div>)
+        let n = param[p]
+        if (typeof n === 'number'){
+          n = n.toFixed(2)
+        }
+        normal.push(<div className="rounded-xl bg-white dark:bg-gray-900 px-2 mr-1 z-20 " key={p}>{p}:{n}</div>)
     }
   }
 
@@ -147,7 +151,7 @@ function Taskcard(props) {
   }
   let DelTask = () => {
     setShow(false)
-    global.User.DelTask(props.id, () => { })
+    global.User.DelTask(props.id, () => {})
   }
 
   if (!show) {

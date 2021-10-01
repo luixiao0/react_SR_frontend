@@ -18,29 +18,24 @@ function App() {
   const loginref = useRef(null)
 
 
-  useEffect(()=>{
-    progressref.current.style.width = `${progress}%`
-  },[progress])
-
-  const progresssetter = (p) => {
-    console.log(p, "%")
-    setProgress(p)
-    if (progress >= 95) {
-      setTimeout(() => {
-        setProgress(0)
-      }, 1500)
+  useEffect(() => {
+    if (progress === 100) {
+      progressref.current.style.width = `${0}%`
     }
-  }
+    else {
+      progressref.current.style.width = `${progress}%`
+    }
+  }, [progress, setProgress])
 
   const onFile = (file, setter) => {
     for (let i of file) {
       console.log(param, "upload")
-      global.User.newTask(i, param, (p) => { progresssetter(p); setter(p) })
+      global.User.newTask(i, param, (p) => { setProgress(p); setter(p) })
     }
   }
 
   const onDL = (takid) => {
-    global.User.DlTask(takid, (p) => { progresssetter(p) })
+    global.User.DlTask(takid, (p) => { setProgress(p) })
   }
 
   const onTabChange = (index) => {
@@ -61,8 +56,8 @@ function App() {
 
   const onDisplaymodeChange = () => {
     setDark(!dark)
-    dark?document.documentElement.classList.remove('dark'):
-    document.documentElement.classList.add('dark')
+    dark ? document.documentElement.classList.remove('dark') :
+      document.documentElement.classList.add('dark')
   }
 
   return (
@@ -88,8 +83,8 @@ function App() {
       <div className="lg:flex justify-center">
         {/* <div className="flex justify-center"> */}
         <div>
-          <Upload onParamChange={onParamChange} onTabChange={onTabChange}/>
-          <Dragger onFile={onFile}/>
+          <Upload onParamChange={onParamChange} onTabChange={onTabChange} />
+          <Dragger onFile={onFile} />
         </div>
 
         {/* <div className="lg:w-full xl:w-1/3"> */}

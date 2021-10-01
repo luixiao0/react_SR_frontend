@@ -75,8 +75,8 @@ export default class Userstate {
       },
     }
     ).then(res => {
-      // s()
-      console.log(res)
+      s()
+      // console.log(res)
     }).catch((e) => console.log(e))
   }
 
@@ -201,7 +201,7 @@ export default class Userstate {
       .catch(error => {
         console.error(error)
       }).finally(()=>{
-        setter(-1)
+        setter(100)
       })
   }
 

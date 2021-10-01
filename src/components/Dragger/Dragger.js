@@ -73,7 +73,6 @@ class Dragger extends React.Component {
       this.fileRef.current.value = null
     }
     else {
-      console.log(progress)
       this.setState({
         progressInfos: progress,
       })

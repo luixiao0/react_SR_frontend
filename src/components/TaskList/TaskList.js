@@ -28,7 +28,7 @@ export default class TaskList extends React.Component {
   refresh = () => {
     this.setState({ loading: true })
     global.User.get_tasks((value) => {
-      console.log(value)
+      // console.log(value)
       this.setState({
         loading: false,
         files: value
